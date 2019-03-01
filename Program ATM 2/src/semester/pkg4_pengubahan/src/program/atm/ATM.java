@@ -20,6 +20,7 @@ public class ATM {
    private static final int WITHDRAWAL = 2;
    private static final int DEPOSIT = 3;
    private static final int EXIT = 4;
+   private static final int CHANGE_PIN = 5;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() {
@@ -85,8 +86,8 @@ public class ATM {
          // user chose to perform one of three transaction types
          if (mainMenuSelection == BALANCE_INQUIRY) {
              // initialize as new object of chosen type
-             currentTransaction = createTransaction(mainMenuSelection);
-             currentTransaction.execute(); // execute transaction
+           currentTransaction = createTransaction(mainMenuSelection);
+           currentTransaction.execute(); // execute transaction
          } else if (mainMenuSelection == WITHDRAWAL) {
            Withdrawal withdrawal = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser);
            withdrawal.execute();
@@ -94,8 +95,10 @@ public class ATM {
            Deposit deposit = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, new DepositSlot());
            deposit.execute();
          } else if (mainMenuSelection == EXIT) { // user chose to terminate session
-            screen.displayMessageLine("\nExiting the system...");
-            userExited = true; // this ATM session should end
+           screen.displayMessageLine("\nExiting the system...");
+           userExited = true; // this ATM session should end
+         } else if (mainMenuSelection == CHANGE_PIN) {
+           bankDatabase.changePIN(currentAccountNumber);
          } else {
            screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
          }
@@ -108,7 +111,8 @@ public class ATM {
       screen.displayMessageLine("1 - View my balance");
       screen.displayMessageLine("2 - Withdraw cash");
       screen.displayMessageLine("3 - Deposit funds");
-      screen.displayMessageLine("4 - Exit\n");
+      screen.displayMessageLine("4 - Exit");
+      screen.displayMessageLine("5 - Change PIN");
       screen.displayMessage("Enter a choice: ");
       return keypad.getInput(); // return user's selection
    } 

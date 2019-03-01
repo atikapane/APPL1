@@ -21,7 +21,7 @@ public class Account {
       pin = thePIN;
    }
 
-   // determines whether a user-specified PIN matches PIN in Account
+   // determines whether a user-specified PIN matches PIN in Accountsss
    public boolean validatePIN(int userPIN) {
       if (userPIN == pin) {
          return true;
@@ -52,5 +52,9 @@ public class Account {
 
    public int getAccountNumber() {
       return accountNumber;  
+   }
+   
+   public void setPIN(int pinToSet) {
+     pin = pinToSet;
    }
 } 
