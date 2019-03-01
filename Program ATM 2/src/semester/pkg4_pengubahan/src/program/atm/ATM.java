@@ -103,7 +103,7 @@ public class ATM {
            Withdrawal withdrawal = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser);
            withdrawal.execute();
          } else if (mainMenuSelection == DEPOSIT) {
-           Deposit deposit = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, new DepositSlot());
+           Deposit deposit = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, new DepositSlot(), cashDispenser);
            deposit.execute();
          } else if (mainMenuSelection == EXIT) { // user chose to terminate session
            screen.displayMessageLine("\nExiting the system...");

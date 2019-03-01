@@ -14,14 +14,17 @@ public class AdminMode {
   private static final int VALIDASI_DEPOSIT = 5;
   private BankDatabase bankDatabase;
   private CashDispenser cashDispenser;
+  private Screen screen;
+  private Keypad keypad;
   
   AdminMode(BankDatabase paramBankDatabase, CashDispenser paramCashDispenser) {
     bankDatabase = paramBankDatabase;
     cashDispenser = paramCashDispenser;
+    screen = new Screen();
+    keypad = new Keypad();
   }
   
   public void execute() {
-    Screen screen = new Screen();
     screen.displayMessageLine("Admin Mode Menu");
     screen.displayMessageLine("1. Tambah nasabah");
     screen.displayMessageLine("2. Unblock nasabah");
@@ -29,7 +32,6 @@ public class AdminMode {
     screen.displayMessageLine("4. Tambah uang di dispenser");
     screen.displayMessageLine("5. Validasi deposit");
     screen.displayMessage("Choose option: ");
-    Keypad keypad = new Keypad();
     int opt = keypad.getInput();
     if (opt == TAMBAH_NASABAH) {
       screen.displayMessageLine("Input (account number, pin, available balance, total balance) terpisah dengan spasi");
@@ -48,10 +50,15 @@ public class AdminMode {
       screen.displayMessage("Tentukan jumlah uang 20 perak untuk ditambahkan: ");
       int added = keypad.getInput();
       cashDispenser.setCount(cashDispenser.getCount() + added);
-    } else if (opt == VALIDASI_DEPOSIT) {
-      
     } else {
-      
+      // asumsiin aja si admin nginput valid lah, biar gampang...
     }
+  }
+  
+  public boolean validate() {
+    Keypad keypad = new Keypad();
+    screen.displayMessageLine("\nInput 1 jika surat valid, 0 sebaliknya: ");
+    int choice = keypad.getInput();
+    return (choice == 1);
   }
 }
