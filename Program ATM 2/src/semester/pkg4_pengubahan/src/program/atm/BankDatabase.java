@@ -16,12 +16,12 @@ public class BankDatabase {
   }
 
   public Account getAccount(int accountNumber) {
-     for (int i = 0; i < 2; i++) {
-         if (accountNumber == accounts[i].getAccountNumber()) {
-             return accounts[i];
-         }
-     }
-     return null; // if no matching account was found, return null
+    for (int i = 0; i < 2; i++) {
+      if (accountNumber == accounts[i].getAccountNumber() && accounts[i].isBlocked() == false) {
+          return accounts[i];
+      }
+    }
+    return null; // if no matching account was found, return null
   } 
 
   public boolean authenticateUser(int userAccountNumber, int userPIN) {
@@ -61,6 +61,16 @@ public class BankDatabase {
     for (int i = 0; i < 2; i++) {
       if (accounts[i].getAccountNumber() == userAccountNumber) {
         accounts[i].setPIN(pinAfter);
+      }
+    }
+  }
+
+  public void blockAccount(int currentAccountNumber) {
+//    System.out.println("mau ngeblock " + currentAccountNumber);
+    for (int i = 0; i < 2; i++) {
+      if (accounts[i].getAccountNumber() == currentAccountNumber) {
+        accounts[i].setBlocked(true);
+        return;
       }
     }
   }

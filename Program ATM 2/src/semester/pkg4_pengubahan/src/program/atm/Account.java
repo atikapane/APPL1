@@ -11,6 +11,7 @@ public class Account {
    private int pin; // PIN for authentication
    private double availableBalance; // funds available for withdrawal
    private double totalBalance; // funds available & pending deposits
+   private boolean blocked;
 
    // Account constructor initializes attributes
    public Account(int theAccountNumber, int thePIN, 
@@ -19,15 +20,15 @@ public class Account {
       availableBalance = theAvailableBalance;
       totalBalance = theTotalBalance;
       pin = thePIN;
+      blocked = false;
    }
 
    // determines whether a user-specified PIN matches PIN in Accountsss
    public boolean validatePIN(int userPIN) {
       if (userPIN == pin) {
          return true;
-      }
-      else {
-         return true;
+      } else {
+         return false;
       }
    } 
 
@@ -56,5 +57,13 @@ public class Account {
    
    public void setPIN(int pinToSet) {
      pin = pinToSet;
+   }
+   
+   public boolean isBlocked() {
+     return blocked;
+   }
+   
+   public void setBlocked(boolean value) {
+     blocked = value;
    }
 } 

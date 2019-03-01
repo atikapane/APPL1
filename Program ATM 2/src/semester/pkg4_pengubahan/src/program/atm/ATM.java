@@ -41,34 +41,38 @@ public class ATM {
             screen.displayMessageLine("\nWelcome!");       
             authenticateUser(); // authenticate user
          }
-         
-         performTransactions(); // user is now authenticated
-         userAuthenticated = false; // reset before next ATM session
-         currentAccountNumber = 0; // reset before next ATM session
-         screen.displayMessageLine("\nThank you! Goodbye!");
+         if (userAuthenticated) {
+           performTransactions(); // user is now authenticated
+           userAuthenticated = false; // reset before next ATM session
+           currentAccountNumber = 0; // reset before next ATM session
+           screen.displayMessageLine("\nThank you! Goodbye!");
+         }
       }
    }
 
    // attempts to authenticate user against database
-   private void authenticateUser() {
-      screen.displayMessage("\nPlease enter your account number: ");
-      int accountNumber = keypad.getInput(); // input account number
+  private void authenticateUser() {
+    screen.displayMessage("\nPlease enter your account number: ");
+    int accountNumber = keypad.getInput(); // input account number
+    for (int cnt = 0; cnt < 3; cnt++) {
       screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
       int pin = keypad.getInput(); // input PIN
-      
       // set userAuthenticated to boolean value returned by database
-      userAuthenticated = 
-         bankDatabase.authenticateUser(accountNumber, pin);
-      
+      userAuthenticated = bankDatabase.authenticateUser(accountNumber, pin);
       // check whether authentication succeeded
       if (userAuthenticated) {
          currentAccountNumber = accountNumber; // save user's account #
+         return;
       } 
       else {
          screen.displayMessageLine(
-            "Invalid account number or PIN. Please try again.");
+            "Invalid account number or PIN or your account might be blocked. Please try again.");
       } 
-   } 
+    }
+    // fail 3 times, block this account
+    screen.displayMessageLine("Fail to enter PIN after 3 times, your account will be blocked! >:(");
+    bankDatabase.blockAccount(accountNumber);
+  } 
 
    // display the main menu and perform transactions
    private void performTransactions() {
