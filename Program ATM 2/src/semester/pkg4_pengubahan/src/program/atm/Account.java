@@ -40,7 +40,15 @@ public class Account {
    // returns the total balance
    public double getTotalBalance() {
       return totalBalance;
-   } 
+   }
+   
+   public void setAvailableBalance(double x){
+     availableBalance = x;
+   }
+   
+   public void setTotalBalance(double x){
+     availableBalance = x;
+   }
 
    public void credit(double amount) {
      availableBalance -= amount;

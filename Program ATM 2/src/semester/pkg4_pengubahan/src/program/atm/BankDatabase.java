@@ -80,7 +80,7 @@ public class BankDatabase {
     accounts.add(addedNasabah);
   }
 
-  void unblockNasabah(int unblockedNasabahAccountNumber) {
+  public void unblockNasabah(int unblockedNasabahAccountNumber) {
     for (int i = 0; i < (int) accounts.size(); i++) {
       if (unblockedNasabahAccountNumber == accounts.get(i).getAccountNumber()) {
         accounts.get(i).setBlocked(false);

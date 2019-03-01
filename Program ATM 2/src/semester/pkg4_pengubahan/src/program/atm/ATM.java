@@ -21,6 +21,7 @@ public class ATM {
    private static final int DEPOSIT = 3;
    private static final int EXIT = 4;
    private static final int CHANGE_PIN = 5;
+   private static final int TRANSFER = 6;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() {
@@ -109,6 +110,13 @@ public class ATM {
            userExited = true; // this ATM session should end
          } else if (mainMenuSelection == CHANGE_PIN) {
            bankDatabase.changePIN(currentAccountNumber);
+         } else if (mainMenuSelection == TRANSFER) {
+           screen.displayMessage("\nTransfer ke: ");
+           int accTo = keypad.getInput();
+           screen.displayMessage("Value: ");
+           double value = keypad.getInputDouble();
+           Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, accTo, value);
+           transfer.execute();
          } else {
            screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
          }
@@ -123,6 +131,7 @@ public class ATM {
       screen.displayMessageLine("3 - Deposit funds");
       screen.displayMessageLine("4 - Exit");
       screen.displayMessageLine("5 - Change PIN");
+      screen.displayMessageLine("6 - Transfer");
       screen.displayMessage("Enter a choice: ");
       return keypad.getInput(); // return user's selection
    } 
