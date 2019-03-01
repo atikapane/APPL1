@@ -43,7 +43,7 @@ public class AdminMode {
       int unblockedNasabahAccountNumber = keypad.getInput();
       bankDatabase.unblockNasabah(unblockedNasabahAccountNumber);
     } else if (opt == LIHAT_UANG_DI_DISPENSER) {
-      screen.displayMessageLine("There is " + cashDispenser.getCount() + "count available");
+      screen.displayMessageLine("There is " + cashDispenser.getCount() + " uang 20 perak available");
     } else if (opt == TAMBAH_UANG_DI_DISPENSER) {
       screen.displayMessage("Tentukan jumlah uang 20 perak untuk ditambahkan: ");
       int added = keypad.getInput();
