@@ -56,6 +56,7 @@ public class Account {
    }
 
    public void debit(double amount) {
+     availableBalance += amount;
      totalBalance += amount;
    }
 
