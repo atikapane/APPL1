@@ -66,6 +66,7 @@ public class Withdrawal extends Transaction {
        int amountToWithdraw = displayMenuOfAmounts();
        if (amountToWithdraw != CANCELED) {
          super.getBankDatabase().getAccount(super.getAccountNumber()).credit((double) amountToWithdraw);
+         cashDispenser.dispenseCash(amount);
        }
    }
 } 

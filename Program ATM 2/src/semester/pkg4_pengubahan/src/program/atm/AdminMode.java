@@ -13,9 +13,11 @@ public class AdminMode {
   private static final int TAMBAH_UANG_DI_DISPENSER = 4;
   private static final int VALIDASI_DEPOSIT = 5;
   private BankDatabase bankDatabase;
+  private CashDispenser cashDispenser;
   
-  AdminMode(BankDatabase paramBankDatabase) {
+  AdminMode(BankDatabase paramBankDatabase, CashDispenser paramCashDispenser) {
     bankDatabase = paramBankDatabase;
+    cashDispenser = paramCashDispenser;
   }
   
   public void execute() {
@@ -41,9 +43,11 @@ public class AdminMode {
       int unblockedNasabahAccountNumber = keypad.getInput();
       bankDatabase.unblockNasabah(unblockedNasabahAccountNumber);
     } else if (opt == LIHAT_UANG_DI_DISPENSER) {
-      
+      screen.displayMessageLine("There is " + cashDispenser.getCount() + "count available");
     } else if (opt == TAMBAH_UANG_DI_DISPENSER) {
-      
+      screen.displayMessage("Tentukan jumlah uang 20 perak untuk ditambahkan: ");
+      int added = keypad.getInput();
+      cashDispenser.setCount(cashDispenser.getCount() + added);
     } else if (opt == VALIDASI_DEPOSIT) {
       
     } else {

@@ -56,7 +56,7 @@ public class ATM {
     screen.displayMessage("\nPlease enter your account number: ");
     int accountNumber = keypad.getInput(); // input account number
     if (accountNumber == 0) {
-      AdminMode adminMode = new AdminMode(bankDatabase);
+      AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
       screen.displayMessageLine("\nEntering Admin Mode..");
       adminMode.execute();
       return;
