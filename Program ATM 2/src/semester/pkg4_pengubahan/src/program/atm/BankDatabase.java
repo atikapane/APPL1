@@ -9,7 +9,7 @@ package semester.pkg4_pengubahan.src.program.atm;
 import java.util.ArrayList;
 
 public class BankDatabase {
-  private ArrayList<Account> accounts; // array of Accounts
+  private ArrayList<Account> accounts = new ArrayList<Account>(); // array of Accounts
 
   public BankDatabase() {
     accounts.add(new Account(12345, 54321, 1000.0, 1200.0)); // initial 2 account
