@@ -6,19 +6,20 @@
 
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.util.ArrayList;
+
 public class BankDatabase {
-  private Account[] accounts; // array of Accounts
+  private ArrayList<Account> accounts; // array of Accounts
 
   public BankDatabase() {
-     accounts = new Account[2]; // just 2 accounts for testing
-     accounts[0] = new Account(12345, 54321, 1000.0, 1200.0);
-     accounts[1] = new Account(8765, 5678, 200.0, 200.0);  
+    accounts.add(new Account(12345, 54321, 1000.0, 1200.0)); // initial 2 account
+    accounts.add(new Account(8765, 5678, 200.0, 200.0));
   }
 
   public Account getAccount(int accountNumber) {
-    for (int i = 0; i < 2; i++) {
-      if (accountNumber == accounts[i].getAccountNumber() && accounts[i].isBlocked() == false) {
-          return accounts[i];
+    for (int i = 0; i < (int) accounts.size(); i++) {
+      if (accountNumber == accounts.get(i).getAccountNumber() && accounts.get(i).isBlocked() == false) {
+        return accounts.get(i);
       }
     }
     return null; // if no matching account was found, return null
@@ -58,18 +59,31 @@ public class BankDatabase {
     Keypad keypad = new Keypad();
     screen.displayMessage("Change PIN to: ");
     int pinAfter = keypad.getInput();
-    for (int i = 0; i < 2; i++) {
-      if (accounts[i].getAccountNumber() == userAccountNumber) {
-        accounts[i].setPIN(pinAfter);
+    for (int i = 0; i < (int) accounts.size(); i++) {
+      if (accounts.get(i).getAccountNumber() == userAccountNumber) {
+        accounts.get(i).setPIN(pinAfter);
       }
     }
   }
 
   public void blockAccount(int currentAccountNumber) {
 //    System.out.println("mau ngeblock " + currentAccountNumber);
-    for (int i = 0; i < 2; i++) {
-      if (accounts[i].getAccountNumber() == currentAccountNumber) {
-        accounts[i].setBlocked(true);
+    for (int i = 0; i < (int) accounts.size(); i++) {
+      if (accounts.get(i).getAccountNumber() == currentAccountNumber) {
+        accounts.get(i).setBlocked(true);
+        return;
+      }
+    }
+  }
+  
+  public void tambahNasabah(Account addedNasabah) {
+    accounts.add(addedNasabah);
+  }
+
+  void unblockNasabah(int unblockedNasabahAccountNumber) {
+    for (int i = 0; i < (int) accounts.size(); i++) {
+      if (unblockedNasabahAccountNumber == accounts.get(i).getAccountNumber()) {
+        accounts.get(i).setBlocked(false);
         return;
       }
     }

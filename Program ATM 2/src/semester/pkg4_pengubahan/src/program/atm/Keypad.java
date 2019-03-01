@@ -12,4 +12,8 @@ public class Keypad {
    public int getInput() {
       return input.nextInt(); // user enters an integer
    } 
+   
+   public double getInputDouble() {
+     return input.nextDouble();
+   }
 } 
