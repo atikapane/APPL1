@@ -22,6 +22,11 @@ public class ATM {
    private static final int EXIT = 6;
    private static final int CHANGE_PIN = 4;
    private static final int TRANSFER = 5;
+   private static final double BIAYA_MASA_DEPAN = 5;
+   private static final double BIAYA_BISNIS = 0;
+   
+   private int accountNumber;
+   private int pin;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() {
@@ -54,7 +59,7 @@ public class ATM {
    // attempts to authenticate user against database
   private void authenticateUser() {
     screen.displayMessage("\nPlease enter your account number: ");
-    int accountNumber = keypad.getInput(); // input account number
+    accountNumber = keypad.getInput(); // input account number
     if (accountNumber == 0) {
       AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
       screen.displayMessageLine("\nEntering Admin Mode..");
@@ -63,7 +68,7 @@ public class ATM {
     }
     for (int cnt = 0; cnt < 3; cnt++) {
       screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
-      int pin = keypad.getInput(); // input PIN
+      pin = keypad.getInput(); // input PIN
       // set userAuthenticated to boolean value returned by database
       userAuthenticated = bankDatabase.authenticateUser(accountNumber, pin);
       // check whether authentication succeeded
@@ -91,35 +96,71 @@ public class ATM {
       // loop while user has not chosen option to exit system
       while (!userExited) {
          // show main menu and get user selection
-         int mainMenuSelection = displayMainMenu();
+         int mainMenuSelection;
 
          // decide how to proceed based on user's menu selection
          // user chose to perform one of three transaction types
-         if (mainMenuSelection == BALANCE_INQUIRY) {
-             // initialize as new object of chosen type
-           currentTransaction = createTransaction(mainMenuSelection);
-           currentTransaction.execute(); // execute transaction
-         } else if (mainMenuSelection == WITHDRAWAL) {
-           Withdrawal withdrawal = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser);
-           withdrawal.execute();
-         } else if (mainMenuSelection == DEPOSIT) {
-           Deposit deposit = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, new DepositSlot(), cashDispenser);
-           deposit.execute();
-         } else if (mainMenuSelection == EXIT) { // user chose to terminate session
-           screen.displayMessageLine("\nExiting the system...");
-           userExited = true; // this ATM session should end
-         } else if (mainMenuSelection == CHANGE_PIN) {
-           bankDatabase.changePIN(currentAccountNumber);
-         } else if (mainMenuSelection == TRANSFER) {
-           screen.displayMessage("\nTransfer ke: ");
-           int accTo = keypad.getInput();
-           screen.displayMessage("Value: ");
-           double value = keypad.getInputDouble();
-           Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, accTo, value);
-           transfer.execute();
-         } else {
-           screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
+         
+         Account acc = bankDatabase.getAccount(accountNumber);
+         if(acc.getJenis() == 2 || acc.getJenis() == 3){
+             mainMenuSelection = displayMainMenu();
+             if (mainMenuSelection == BALANCE_INQUIRY) {
+                // initialize as new object of chosen type
+              currentTransaction = createTransaction(mainMenuSelection);
+              currentTransaction.execute(); // execute transaction
+            } else if (mainMenuSelection == WITHDRAWAL) {
+              Withdrawal withdrawal = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser);
+              withdrawal.execute();
+            } else if (mainMenuSelection == DEPOSIT) {
+              Deposit deposit = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, new DepositSlot(), cashDispenser);
+              deposit.execute();
+            } else if (mainMenuSelection == EXIT) { // user chose to terminate session
+              screen.displayMessageLine("\nExiting the system...");
+              userExited = true; // this ATM session should end
+            } else if (mainMenuSelection == CHANGE_PIN) {
+              bankDatabase.changePIN(currentAccountNumber);
+            } else if (mainMenuSelection == TRANSFER) {
+              screen.displayMessage("\nTransfer ke: ");
+              int accTo = keypad.getInput();
+              screen.displayMessage("Value: ");
+              double value = keypad.getInputDouble();
+              
+              //biaya transfer
+              if(acc.getJenis() == 3){
+                  Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, accTo, value, BIAYA_MASA_DEPAN);
+                  transfer.execute();
+              }
+              else if(acc.getJenis() == 2){
+                  Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, accTo, value, BIAYA_BISNIS);
+                  transfer.execute();
+              }
+            } else {
+              screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
+            }
          }
+         else if(acc.getJenis() == 1){
+             mainMenuSelection = displayMainMenu1();
+             if (mainMenuSelection == BALANCE_INQUIRY) {
+                // initialize as new object of chosen type
+              currentTransaction = createTransaction(mainMenuSelection);
+              currentTransaction.execute(); // execute transaction
+            } else if (mainMenuSelection == WITHDRAWAL) {
+              Withdrawal withdrawal = new Withdrawal(currentAccountNumber, screen, bankDatabase, keypad, cashDispenser);
+              withdrawal.execute();
+            } else if (mainMenuSelection == DEPOSIT) {
+              Deposit deposit = new Deposit(currentAccountNumber, screen, bankDatabase, keypad, new DepositSlot(), cashDispenser);
+              deposit.execute();
+            } else if (mainMenuSelection == 5) { // user chose to terminate session
+              screen.displayMessageLine("\nExiting the system...");
+              userExited = true; // this ATM session should end
+            } else if (mainMenuSelection == 4) {
+              bankDatabase.changePIN(currentAccountNumber);
+            } else {
+              screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
+            }
+         }
+         
+            
       } 
    } 
 
@@ -132,6 +173,18 @@ public class ATM {
       screen.displayMessageLine("4 - Change PIN");
       screen.displayMessageLine("5 - Transfer");
       screen.displayMessageLine("6 - Exit");
+      screen.displayMessage("Enter a choice: ");
+      return keypad.getInput(); // return user's selection
+   } 
+   
+   private int displayMainMenu1() {
+      screen.displayMessageLine("\nMain menu:");
+      screen.displayMessageLine("1 - View my balance");
+      screen.displayMessageLine("2 - Withdraw cash");
+      screen.displayMessageLine("3 - Deposit funds");
+      screen.displayMessageLine("4 - Change PIN");
+      //screen.displayMessageLine("5 - Transfer");
+      screen.displayMessageLine("5 - Exit");
       screen.displayMessage("Enter a choice: ");
       return keypad.getInput(); // return user's selection
    } 

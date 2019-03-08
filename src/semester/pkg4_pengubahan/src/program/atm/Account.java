@@ -7,6 +7,11 @@
 package semester.pkg4_pengubahan.src.program.atm;
 
 public class Account {
+
+    /**
+     * @return the jenis
+     */
+    
    private int accountNumber; // account number
    private int pin; // PIN for authentication
    private double availableBalance; // funds available for withdrawal
@@ -71,11 +76,11 @@ public class Account {
    }
 
    public int getAccountNumber() {
-      return accountNumber;  
+      return this.accountNumber;  
    }
    
    public void setPIN(int pinToSet) {
-     pin = pinToSet;
+     this.pin = pinToSet;
    }
    
    public boolean isBlocked() {
@@ -85,4 +90,8 @@ public class Account {
    public void setBlocked(boolean value) {
      blocked = value;
    }
+   
+   public int getJenis() {
+        return this.jenis;
+    }
 } 

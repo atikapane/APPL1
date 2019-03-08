@@ -11,12 +11,14 @@ class Transfer {
   private final int numTo;
   private final double value;
   private BankDatabase bankDatabase;
+  private double biaya;
   
-  Transfer(BankDatabase bankDatabase, int numFrom, int numTo, double value) {
+  Transfer(BankDatabase bankDatabase, int numFrom, int numTo, double value, double biaya) {
     this.bankDatabase = bankDatabase;
     this.numFrom = numFrom;
     this.numTo = numTo;
     this.value = value;
+    this.biaya = biaya;
   }
   
   public void execute() {
@@ -25,8 +27,8 @@ class Transfer {
     Account accTo = bankDatabase.getAccount(numTo);
     assert(accFrom != null);
     assert(accTo != null);
-    accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
-    accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
+    accFrom.setAvailableBalance(accFrom.getAvailableBalance() - this.value - this.biaya);
+    accFrom.setTotalBalance(accFrom.getTotalBalance() - this.value - this.biaya);
     accTo.setTotalBalance(accTo.getTotalBalance() + value);
   }
 }
