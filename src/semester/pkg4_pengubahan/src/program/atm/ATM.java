@@ -19,9 +19,9 @@ public class ATM {
    private static final int BALANCE_INQUIRY = 1;
    private static final int WITHDRAWAL = 2;
    private static final int DEPOSIT = 3;
-   private static final int EXIT = 4;
-   private static final int CHANGE_PIN = 5;
-   private static final int TRANSFER = 6;
+   private static final int EXIT = 6;
+   private static final int CHANGE_PIN = 4;
+   private static final int TRANSFER = 5;
 
    // no-argument ATM constructor initializes instance variables
    public ATM() {
@@ -129,9 +129,9 @@ public class ATM {
       screen.displayMessageLine("1 - View my balance");
       screen.displayMessageLine("2 - Withdraw cash");
       screen.displayMessageLine("3 - Deposit funds");
-      screen.displayMessageLine("4 - Exit");
-      screen.displayMessageLine("5 - Change PIN");
-      screen.displayMessageLine("6 - Transfer");
+      screen.displayMessageLine("4 - Change PIN");
+      screen.displayMessageLine("5 - Transfer");
+      screen.displayMessageLine("6 - Exit");
       screen.displayMessage("Enter a choice: ");
       return keypad.getInput(); // return user's selection
    } 

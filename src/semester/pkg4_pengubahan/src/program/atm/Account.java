@@ -12,15 +12,25 @@ public class Account {
    private double availableBalance; // funds available for withdrawal
    private double totalBalance; // funds available & pending deposits
    private boolean blocked;
+   private int jenis;
+//   private int SISWA = 1;
+//   private int BISNIS = 2;
+//   private int MASA_DEPAN = 3;
 
    // Account constructor initializes attributes
    public Account(int theAccountNumber, int thePIN, 
-      double theAvailableBalance, double theTotalBalance) {
-      accountNumber = theAccountNumber;
-      availableBalance = theAvailableBalance;
-      totalBalance = theTotalBalance;
-      pin = thePIN;
-      blocked = false;
+      double theAvailableBalance, double theTotalBalance, int tipe) {
+      this.accountNumber = theAccountNumber;
+      this.availableBalance = theAvailableBalance;
+      this.totalBalance = theTotalBalance;
+      this.pin = thePIN;
+      this.blocked = false;
+      
+      //tipe == 1 then siswa
+      //tipe == 2 then bisnis
+      //tipe == 3 then masa_depan
+      this.jenis = tipe;
+      
    }
 
    // determines whether a user-specified PIN matches PIN in Accountsss
@@ -43,21 +53,21 @@ public class Account {
    }
    
    public void setAvailableBalance(double x){
-     availableBalance = x;
+     this.availableBalance = x;
    }
    
    public void setTotalBalance(double x){
-     availableBalance = x;
+     this.totalBalance = x;
    }
 
    public void credit(double amount) {
-     availableBalance -= amount;
-     totalBalance -= amount;
+     this.availableBalance -= amount;
+     this.totalBalance -= amount;
    }
 
    public void debit(double amount) {
-     availableBalance += amount;
-     totalBalance += amount;
+     this.availableBalance += amount;
+     this.totalBalance += amount;
    }
 
    public int getAccountNumber() {
