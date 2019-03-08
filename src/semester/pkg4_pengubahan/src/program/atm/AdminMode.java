@@ -15,7 +15,7 @@ public class AdminMode {
     private static final int TAMBAH_UANG_DI_DISPENSER = 4;
     private static final int VALIDASI_DEPOSIT = 5;
     private static final int GANTI_TANGGAL = 6;
-    private Calendar callendar;
+    private Calendar calendar = Calendar.getInstance();
     private BankDatabase bankDatabase;
     private CashDispenser cashDispenser;
     private Screen screen;
@@ -28,13 +28,14 @@ public class AdminMode {
         keypad = new Keypad();
     }
 
-    public void execute() {        
+    public void execute() {
         screen.displayMessageLine("Admin Mode Menu");
         screen.displayMessageLine("1. Tambah nasabah");
         screen.displayMessageLine("2. Unblock nasabah");
         screen.displayMessageLine("3. Lihat uang di dispenser");
         screen.displayMessageLine("4. Tambah uang di dispenser");
         screen.displayMessageLine("5. Validasi deposit");
+        screen.displayMessageLine("6. Ganti tanggal");
         screen.displayMessage("Choose option: ");
         int opt = keypad.getInput();
         if (opt == TAMBAH_NASABAH) {
@@ -57,15 +58,15 @@ public class AdminMode {
             cashDispenser.setCount(cashDispenser.getCount() + added);
         } else if (opt == GANTI_TANGGAL) {
             int day, month, year;
-            screen.displayMessage("Tentukan tanggal saat ini yyyy mm dd ");
-            screen.displayMessage("Tahun : ");
+            screen.displayMessage("\nTentukan tanggal saat ini yyyy mm dd ");
+            screen.displayMessage("\nTahun : ");
             year = keypad.getInput();
             screen.displayMessage("Bulan : ");
             month = keypad.getInput();
             screen.displayMessage("Hari : ");
             day = keypad.getInput();
 
-            getCallendar().set(year, month, day);
+            calendar.set(year, month, day);
         } else {
             // asumsiin aja si admin nginput valid lah, biar gampang...
         }
@@ -79,9 +80,9 @@ public class AdminMode {
     }
 
     /**
-     * @return the callendar
+     * @return the calendar
      */
     public Calendar getCallendar() {
-        return callendar;
+        return calendar;
     }
 }

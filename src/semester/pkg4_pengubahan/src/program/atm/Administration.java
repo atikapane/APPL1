@@ -23,8 +23,9 @@ public class Administration {
     }
 
     public void AdministrationFee() {
-        Calendar cal = adminMode.getCallendar();
+        Calendar cal = adminMode.getCallendar().getInstance();
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+//        int dayOfMonth = 1;
         if(dayOfMonth == 1){
             for (Account account : bankDatabase.getAccounts()) {
                 account.setMonthlyFeeStatus(0);
