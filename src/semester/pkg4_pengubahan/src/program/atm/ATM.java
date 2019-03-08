@@ -12,8 +12,9 @@ public class ATM {
     private Screen screen; // ATM's screen
     private Keypad keypad; // ATM's keypad
     private CashDispenser cashDispenser; // ATM's cash dispenser
-
     private BankDatabase bankDatabase; // account information database
+    private Administration administration;
+    private AdminMode adminMode;
 
     // constants corresponding to main menu options
     private static final int BALANCE_INQUIRY = 1;
@@ -34,26 +35,32 @@ public class ATM {
         keypad = new Keypad(); // create keypad 
         cashDispenser = new CashDispenser(); // create cash dispenser
         bankDatabase = new BankDatabase(); // create acct info database
+        adminMode = new AdminMode(bankDatabase, cashDispenser);
+        administration = new Administration(bankDatabase, adminMode);
     }
 
     // start ATM 
     public void run() {
         // welcome and authenticate user; perform transactions
         while (true) {
-            // loop while user is not yet authenticated
-            while (!userAuthenticated) {
-                screen.displayMessageLine("\nWelcome!");
-                authenticateUser(); // authenticate user
-            }
-            if (userAuthenticated) {
-                performTransactions(); // user is now authenticated
-                userAuthenticated = false; // reset before next ATM session
-                currentAccountNumber = 0; // reset before next ATM session
-                screen.displayMessageLine("\nThank you! Goodbye!");
+            while (true) {
+                administration.AdministrationFee();
+
+                // loop while user is not yet authenticated
+                while (!userAuthenticated) {
+                    screen.displayMessageLine("\nWelcome!");
+                    authenticateUser(); // authenticate user
+                }
+                if (userAuthenticated) {
+                    performTransactions(); // user is now authenticated
+                    userAuthenticated = false; // reset before next ATM session
+                    currentAccountNumber = 0; // reset before next ATM session
+                    screen.displayMessageLine("\nThank you! Goodbye!");
+                }
             }
         }
     }
-
+    
     // attempts to authenticate user against database
     private void authenticateUser() {
         screen.displayMessage("\nPlease enter your account number: ");
@@ -64,6 +71,7 @@ public class ATM {
             adminMode.execute();
             return;
         }
+        
         for (int cnt = 0; cnt < 3; cnt++) {
             screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
             pin = keypad.getInput(); // input PIN
@@ -130,7 +138,6 @@ public class ATM {
         }
     }
     // display the main menu and return an input selection
-
     private int displayMainMenu() {
         screen.displayMessageLine("\nMain menu:");
         screen.displayMessageLine("1 - View my balance");
@@ -164,7 +171,6 @@ public class ATM {
                         currentAccountNumber, screen, bankDatabase);
                 break;
         }
-
         return temp;
     }
 }

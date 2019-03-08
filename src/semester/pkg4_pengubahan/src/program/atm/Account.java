@@ -15,7 +15,9 @@ public class Account {
     private double availableBalance; // funds available for withdrawal
     private double totalBalance; // funds available & pending deposits
     private boolean blocked;
+    private int monthlyFeeStatus; 
     private int jenis;
+
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
 //   private int MASA_DEPAN = 3;
@@ -23,10 +25,11 @@ public class Account {
 
     // Account constructor initializes attributes
     public Account(int theAccountNumber, int thePIN,
-            double theAvailableBalance, double theTotalBalance, int tipe) {
+            double theAvailableBalance, double theTotalBalance, int tipe, int atmMonthlyFeeStatus) {
         this.accountNumber = theAccountNumber;
         this.availableBalance = theAvailableBalance;
         this.totalBalance = theTotalBalance;
+        this.monthlyFeeStatus = atmMonthlyFeeStatus;
         this.pin = thePIN;
         this.blocked = false;
 
@@ -100,5 +103,14 @@ public class Account {
 
     public void setBlocked(boolean value) {
         blocked = value;
+    }
+    
+    public int getMonthlyFeeStatus() {
+        return monthlyFeeStatus;
+    }
+
+    
+    public void setMonthlyFeeStatus(int monthlyFeeStatus) {
+        this.monthlyFeeStatus = monthlyFeeStatus;
     }
 }

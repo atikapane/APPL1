@@ -12,20 +12,22 @@ public class BankDatabase {
     private ArrayList<Account> accounts = new ArrayList<Account>(); // array of Accounts
 
     public BankDatabase() {
-        accounts.add(new Account(12345, 54321, 1000.0, 1200.0, 2)); // initial 2 account
-        accounts.add(new Account(8765, 5678, 200.0, 200.0, 1));
-        accounts.add(new Account(1357, 7531, 500, 500, 3));
+        accounts.add(new Account(12345, 54321, 1000.0, 1200.0, 2, 0)); // initial 2 account
+        accounts.add(new Account(8765, 5678, 200.0, 200.0, 1, 0));
+        accounts.add(new Account(1357, 7531, 500, 500, 3, 0));
     }
-
+    
+    
+    
     public Account getAccount(int accountNumber) {
-        for (int i = 0; i < (int) accounts.size(); i++) {
-            if (accountNumber == accounts.get(i).getAccountNumber() && accounts.get(i).isBlocked() == false) {
-                return accounts.get(i);
+        for (int i = 0; i < (int) getAccounts().size(); i++) {
+            if (accountNumber == getAccounts().get(i).getAccountNumber() && getAccounts().get(i).isBlocked() == false) {
+                return getAccounts().get(i);
             }
         }
         return null; // if no matching account was found, return null
     }
-
+    
     public boolean authenticateUser(int userAccountNumber, int userPIN) {
         // attempt to retrieve the account with the account number
         Account userAccount = getAccount(userAccountNumber);
@@ -48,8 +50,8 @@ public class BankDatabase {
 
     public void credit(int userAccountNumber, double amount) {
         getAccount(userAccountNumber).credit(amount);
-    }
-
+    }  
+    
     public void debit(int userAccountNumber, double amount) {
         getAccount(userAccountNumber).debit(amount);
     }
@@ -59,33 +61,40 @@ public class BankDatabase {
         Keypad keypad = new Keypad();
         screen.displayMessage("Change PIN to: ");
         int pinAfter = keypad.getInput();
-        for (int i = 0; i < (int) accounts.size(); i++) {
-            if (accounts.get(i).getAccountNumber() == userAccountNumber) {
-                accounts.get(i).setPIN(pinAfter);
+        for (int i = 0; i < (int) getAccounts().size(); i++) {
+            if (getAccounts().get(i).getAccountNumber() == userAccountNumber) {
+                getAccounts().get(i).setPIN(pinAfter);
             }
         }
     }
 
     public void blockAccount(int currentAccountNumber) {
 //    System.out.println("mau ngeblock " + currentAccountNumber);
-        for (int i = 0; i < (int) accounts.size(); i++) {
-            if (accounts.get(i).getAccountNumber() == currentAccountNumber) {
-                accounts.get(i).setBlocked(true);
+        for (int i = 0; i < (int) getAccounts().size(); i++) {
+            if (getAccounts().get(i).getAccountNumber() == currentAccountNumber) {
+                getAccounts().get(i).setBlocked(true);
                 return;
             }
         }
     }
 
     public void tambahNasabah(Account addedNasabah) {
-        accounts.add(addedNasabah);
+        getAccounts().add(addedNasabah);
     }
 
     public void unblockNasabah(int unblockedNasabahAccountNumber) {
-        for (int i = 0; i < (int) accounts.size(); i++) {
-            if (unblockedNasabahAccountNumber == accounts.get(i).getAccountNumber()) {
-                accounts.get(i).setBlocked(false);
+        for (int i = 0; i < (int) getAccounts().size(); i++) {
+            if (unblockedNasabahAccountNumber == getAccounts().get(i).getAccountNumber()) {
+                getAccounts().get(i).setBlocked(false);
                 return;
             }
         }
+    }
+
+    /**
+     * @return the accounts
+     */
+    public ArrayList<Account> getAccounts() {
+        return accounts;
     }
 }
