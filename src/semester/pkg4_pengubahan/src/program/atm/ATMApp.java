@@ -11,5 +11,7 @@ public class ATMApp {
    public static void main(String[] args) {
       ATM theATM = new ATM();    
       theATM.run();
+      
+      System.out.ptintln("Ba!");
    }
 } 
