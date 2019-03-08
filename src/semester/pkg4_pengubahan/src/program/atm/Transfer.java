@@ -8,40 +8,92 @@ package semester.pkg4_pengubahan.src.program.atm;
 class Transfer {
 
     private final int numFrom;
-    private final int numTo;
-    private final double value;
+    private int numTo;
+    private double value;
+    private Keypad keypad;
     private BankDatabase bankDatabase;
+    private final static int CANCELED = 7;
 
-    Transfer(BankDatabase bankDatabase, int numFrom, int numTo, double value) {
+    Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad) {
         this.bankDatabase = bankDatabase;
         this.numFrom = numFrom;
-        this.numTo = numTo;
-        this.value = value;
+        this.keypad = keypad;
     }
 
     public void execute() {
         Screen screen = new Screen();
-        assert (numFrom != numTo);
-        Account accFrom = bankDatabase.getAccount(numFrom);
-        Account accTo = bankDatabase.getAccount(numTo);
-        assert (accFrom != null);
-        assert (accTo != null);
-        accFrom.setTransferLimit(value);
-        //Check account transfer limit
-        if (accFrom.getJenis() == 2) {
-            //Transfer limit for Bisnis account
-            if (accFrom.getTransferLimit() <= 10000) {
-                accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
-                accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
-                accTo.setTotalBalance(accTo.getTotalBalance() + value);
-            }else screen.displayMessageLine("\nYou have exceed your transfer limit.");
-        } else if (accFrom.getJenis() == 3) {
-            //Transfer limit for Masa Depan account
-            if (accFrom.getTransferLimit() <= 500) {
-                accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
-                accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
-                accTo.setTotalBalance(accTo.getTotalBalance() + value);
-            }else screen.displayMessageLine("\nYou have exceed your transfer limit.");
+
+        //Get amount and account destination
+        value = displayMenuTransfer();
+        if (value != CANCELED) {
+            screen.displayMessage("\nEnter account number destination: ");
+            numTo = keypad.getInput();
+
+            assert (numFrom != numTo);
+
+            Account accFrom = bankDatabase.getAccount(numFrom);
+            Account accTo = bankDatabase.getAccount(numTo);
+
+            assert (accFrom != null);
+            assert (accTo != null);
+
+            accFrom.setTransferLimit(value);
+            //Check account transfer limit
+            if (accFrom.getJenis() == 2) {
+                //Transfer limit for Bisnis account
+                if (accFrom.getTransferLimit() <= 10000) {
+                    accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
+                    accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
+                    accTo.setTotalBalance(accTo.getTotalBalance() + value);
+                } else {
+                    screen.displayMessageLine("\nYou have exceed your transfer limit.");
+                }
+            } else if (accFrom.getJenis() == 3) {
+                //Transfer limit for Masa Depan account
+                if (accFrom.getTransferLimit() <= 500) {
+                    accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
+                    accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
+                    accTo.setTotalBalance(accTo.getTotalBalance() + value);
+                } else {
+                    screen.displayMessageLine("\nYou have exceed your transfer limit.");
+                }
+            }
         }
+    }
+
+    private double displayMenuTransfer() {
+        int userChoice = 0;
+
+        Screen screen = new Screen();
+
+        int[] amounts = {0, 20, 40, 60, 100, 200};
+
+        while (userChoice == 0) {
+            screen.displayMessageLine("\nTransfer Menu:");
+            screen.displayMessageLine("1 - $20");
+            screen.displayMessageLine("2 - $40");
+            screen.displayMessageLine("3 - $60");
+            screen.displayMessageLine("4 - $100");
+            screen.displayMessageLine("5 - $200");
+            screen.displayMessageLine("6 - Another amount");
+            screen.displayMessageLine("7 - Cancel transaction");
+            screen.displayMessage("\nChoose amount: ");
+
+            int input = keypad.getInput(); // get user input through keypad
+            userChoice = (input == 6 ? CANCELED : amounts[input]);
+            if (input >= 1 && input <= 5) {
+                userChoice = amounts[input];
+            } else if (input == 6) {
+                screen.displayMessage("\nInsert amount: ");
+                userChoice = keypad.getInput();
+            } else if (input == CANCELED) {
+                screen.displayMessageLine("Cancelling transaction..");
+                return CANCELED;
+            } else {
+                screen.displayMessageLine("\nInvalid selection. Try again.");
+                continue;
+            }
+        }
+        return userChoice;
     }
 }

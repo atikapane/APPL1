@@ -111,11 +111,7 @@ public class ATM {
          } else if (mainMenuSelection == CHANGE_PIN) {
            bankDatabase.changePIN(currentAccountNumber);
          } else if (mainMenuSelection == TRANSFER) {
-           screen.displayMessage("\nTransfer To \nEnter Account Number: ");
-           int accTo = keypad.getInput();
-           screen.displayMessage("Value: ");
-           double value = keypad.getInputDouble();
-           Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, accTo, value);
+           Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, keypad);
            transfer.execute();
          } else {
            screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
