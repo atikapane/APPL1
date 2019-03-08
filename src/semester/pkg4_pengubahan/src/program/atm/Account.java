@@ -21,6 +21,7 @@ public class Account {
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
 //   private int MASA_DEPAN = 3;
+    private double limitTarik = 0;
     private double transferLimit = 0;
 
     // Account constructor initializes attributes
@@ -37,7 +38,7 @@ public class Account {
         //tipe == 2 then bisnis
         //tipe == 3 then masa_depan
         this.jenis = tipe;
-
+        
     }
 
     // determines whether a user-specified PIN matches PIN in Accountsss
@@ -112,5 +113,19 @@ public class Account {
     
     public void setMonthlyFeeStatus(int monthlyFeeStatus) {
         this.monthlyFeeStatus = monthlyFeeStatus;
+    }
+
+    /**
+     * @return the limitTarik
+     */
+    public double getLimitTarik() {
+        return limitTarik;
+    }
+
+    /**
+     * @param limitTarik the limitTarik to set
+     */
+    public void setLimitTarik(double limitTarik) {
+        this.limitTarik = limitTarik;
     }
 }
