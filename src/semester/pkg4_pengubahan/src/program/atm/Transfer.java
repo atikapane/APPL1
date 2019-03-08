@@ -26,16 +26,20 @@ class Transfer {
         Account accTo = bankDatabase.getAccount(numTo);
         assert (accFrom != null);
         assert (accTo != null);
+        
+        //Check account transfer limit
         if (accFrom.getJenis() == 2) {
+            accFrom.setTransferLimit(value);
+            //Transfer limit for Bisnis account
             if (accFrom.getTransferLimit() < 10000) {
-                accFrom.setTransferLimit(value);
                 accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
                 accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
                 accTo.setTotalBalance(accTo.getTotalBalance() + value);
             }else screen.displayMessageLine("\nYou have reach your transfer limit.");
         } else if (accFrom.getJenis() == 3) {
+            accFrom.setTransferLimit(value);
+            //Transfer limit for Masa Depan account
             if (accFrom.getTransferLimit() < 500) {
-                accFrom.setTransferLimit(value);
                 accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
                 accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
                 accTo.setTotalBalance(accTo.getTotalBalance() + value);
