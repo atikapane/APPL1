@@ -6,8 +6,7 @@
 package semester.pkg4_pengubahan.src.program.atm;
 
 class Transfer {
-
-    private final int numFrom;
+    private int numFrom;
     private int numTo;
     private double value;
     private Keypad keypad;
@@ -19,7 +18,7 @@ class Transfer {
         this.numFrom = numFrom;
         this.keypad = keypad;
     }
-
+    
     public void execute() {
         Screen screen = new Screen();
 
@@ -51,9 +50,10 @@ class Transfer {
             } else if (accFrom.getJenis() == 3) {
                 //Transfer limit for Masa Depan account
                 if (accFrom.getTransferLimit() <= 500) {
+                    accTo.setTotalBalance(accTo.getTotalBalance() + value);
+                    value += 5; //Biaya transfer masa depan;
                     accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
                     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
-                    accTo.setTotalBalance(accTo.getTotalBalance() + value);
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
                 }
