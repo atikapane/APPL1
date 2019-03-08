@@ -13,7 +13,14 @@ public class Account {
    private double totalBalance; // funds available & pending deposits
    private boolean blocked;
    private int jenis;
+<<<<<<< HEAD
    private double limitTarik;
+=======
+//   private int SISWA = 1;
+//   private int BISNIS = 2;
+//   private int MASA_DEPAN = 3;
+   private double transferLimit = 0;
+>>>>>>> Tiara
 
    // Account constructor initializes attributes
    public Account(int theAccountNumber, int thePIN, 
@@ -48,6 +55,18 @@ public class Account {
    // returns the total balance
    public double getTotalBalance() {
       return totalBalance;
+   }
+   
+   public int getJenis(){
+       return this.jenis;
+   }
+   
+   public double getTransferLimit(){
+       return this.transferLimit;
+   }
+   
+   public void setTransferLimit(double x){
+       this.transferLimit += x;               
    }
    
    public void setAvailableBalance(double x){

@@ -25,6 +25,11 @@ class Transfer {
     Account accTo = bankDatabase.getAccount(numTo);
     assert(accFrom != null);
     assert(accTo != null);
+    if(accFrom.getJenis() == 2){
+        if(accFrom.getTransferLimit() < 10000){
+            
+        }
+    }
     accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
     accTo.setTotalBalance(accTo.getTotalBalance() + value);
