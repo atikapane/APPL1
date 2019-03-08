@@ -13,18 +13,15 @@ public class Account {
    private double totalBalance; // funds available & pending deposits
    private boolean blocked;
    private int jenis;
-<<<<<<< HEAD
-   private double limitTarik;
-=======
-//   private int SISWA = 1;
-//   private int BISNIS = 2;
-//   private int MASA_DEPAN = 3;
+        //   private int SISWA = 1;
+        //   private int BISNIS = 2;
+        //   private int MASA_DEPAN = 3;
+   private double limitTarik = 0;
    private double transferLimit = 0;
->>>>>>> Tiara
 
    // Account constructor initializes attributes
    public Account(int theAccountNumber, int thePIN, 
-      double theAvailableBalance, double theTotalBalance, int tipe, double limitT) {
+      double theAvailableBalance, double theTotalBalance, int tipe) {
       this.accountNumber = theAccountNumber;
       this.availableBalance = theAvailableBalance;
       this.totalBalance = theTotalBalance;
@@ -35,7 +32,6 @@ public class Account {
       //tipe == 2 then bisnis
       //tipe == 3 then masa_depan
       this.jenis = tipe;
-      this.limitTarik = limitT;
    }
 
    // determines whether a user-specified PIN matches PIN in Accountsss
