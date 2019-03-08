@@ -97,7 +97,7 @@ public class ATM {
             // show main menu and get user selection
             if (acc.getJenis() == 1) {
                 mainMenuSelection = displayMainMenuSiswa();
-                if(mainMenuSelection == TRANSFER){
+                if (mainMenuSelection == TRANSFER) {
                     mainMenuSelection = EXIT;
                 }
             } else {
