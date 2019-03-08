@@ -46,6 +46,7 @@ class Transfer {
                     accTo.setTotalBalance(accTo.getTotalBalance() + value);
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
+                    accFrom.setTransferLimit(-value);
                 }
             } else if (accFrom.getJenis() == 3) {
                 //Transfer limit for Masa Depan account
@@ -56,6 +57,7 @@ class Transfer {
                     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
+                    accFrom.setTransferLimit(-value);
                 }
             }
         }
@@ -80,7 +82,6 @@ class Transfer {
             screen.displayMessage("\nChoose amount: ");
 
             int input = keypad.getInput(); // get user input through keypad
-            userChoice = (input == 6 ? CANCELED : amounts[input]);
             if (input >= 1 && input <= 5) {
                 userChoice = amounts[input];
             } else if (input == 6) {
