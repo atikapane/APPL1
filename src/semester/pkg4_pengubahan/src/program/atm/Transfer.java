@@ -6,6 +6,7 @@
 package semester.pkg4_pengubahan.src.program.atm;
 
 class Transfer {
+
     private int numFrom;
     private int numTo;
     private double value;
@@ -18,7 +19,7 @@ class Transfer {
         this.numFrom = numFrom;
         this.keypad = keypad;
     }
-    
+
     public void execute() {
         Screen screen = new Screen();
 
