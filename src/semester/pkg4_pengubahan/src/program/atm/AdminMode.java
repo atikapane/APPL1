@@ -40,7 +40,8 @@ public class AdminMode {
       double addedAvailableBalance = keypad.getInputDouble();
       double addedTotalBalance = keypad.getInputDouble();
       int tipe = keypad.getInput();
-      bankDatabase.tambahNasabah(new Account(addedAccountNumber, addedPIN, addedAvailableBalance, addedTotalBalance, tipe));
+      double limitT = 0.00;
+      bankDatabase.tambahNasabah(new Account(addedAccountNumber, addedPIN, addedAvailableBalance, addedTotalBalance, tipe, limitT));
     } else if (opt == UNBLOCK_NASABAH) {
       screen.displayMessage("Unblock nasabah dengan accountNumber: ");
       int unblockedNasabahAccountNumber = keypad.getInput();

@@ -13,13 +13,11 @@ public class Account {
    private double totalBalance; // funds available & pending deposits
    private boolean blocked;
    private int jenis;
-//   private int SISWA = 1;
-//   private int BISNIS = 2;
-//   private int MASA_DEPAN = 3;
+   private double limitTarik;
 
    // Account constructor initializes attributes
    public Account(int theAccountNumber, int thePIN, 
-      double theAvailableBalance, double theTotalBalance, int tipe) {
+      double theAvailableBalance, double theTotalBalance, int tipe, double limitT) {
       this.accountNumber = theAccountNumber;
       this.availableBalance = theAvailableBalance;
       this.totalBalance = theTotalBalance;
@@ -30,7 +28,7 @@ public class Account {
       //tipe == 2 then bisnis
       //tipe == 3 then masa_depan
       this.jenis = tipe;
-      
+      this.limitTarik = limitT;
    }
 
    // determines whether a user-specified PIN matches PIN in Accountsss
@@ -85,4 +83,12 @@ public class Account {
    public void setBlocked(boolean value) {
      blocked = value;
    }
-} 
+   
+   public double getLimitTarik() {
+       return limitTarik;
+   }
+   
+   public void setLimitTarik(double limitT) {
+       this.limitTarik += limitT;
+   }
+}
