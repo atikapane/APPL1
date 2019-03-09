@@ -14,11 +14,10 @@ class Transfer {
     private BankDatabase bankDatabase;
     private final static int CANCELED = 7;
 
-    Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad, double value) {
+    Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad) {
         this.bankDatabase = bankDatabase;
         this.numFrom = numFrom;
         this.keypad = keypad;
-        this.value = value;
     }
 
     public static void errorToSelf() {
@@ -30,7 +29,11 @@ class Transfer {
     }
 
     public void execute() {
-        if (value <= 0) {
+        Screen screen = new Screen();
+
+        //Get amount and account destination
+        value = displayMenuTransfer();
+                if (value <= 0) {
             System.out.println("Value tidak boleh 0 atau kurang");
             return;
         }
@@ -38,19 +41,15 @@ class Transfer {
             System.out.println("Uang yang anda punya kurang untuk mentransfer sejumlah value");
             return;
         }
-        if (numFrom == numTo) {
-            Transfer.errorToSelf();
-            return;
-        }
-        Screen screen = new Screen();
-
-        //Get amount and account destination
-        value = displayMenuTransfer();
+        
         if (value != CANCELED) {
             screen.displayMessage("\nEnter account number destination: ");
             numTo = keypad.getInput();
 
-            assert (numFrom != numTo);
+            if (numFrom == numTo) {
+            Transfer.errorToSelf();
+            return;
+        }
 
             Account accFrom = bankDatabase.getAccount(numFrom);
             Account accTo = bankDatabase.getAccount(numTo);
