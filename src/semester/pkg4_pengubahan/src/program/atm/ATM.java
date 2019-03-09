@@ -60,7 +60,7 @@ public class ATM {
             }
         }
     }
-    
+
     // attempts to authenticate user against database
     private void authenticateUser() {
         screen.displayMessage("\nPlease enter your account number: ");
@@ -71,7 +71,7 @@ public class ATM {
             adminMode.execute();
             return;
         }
-        
+
         for (int cnt = 0; cnt < 3; cnt++) {
             screen.displayMessage("\nEnter your PIN: "); // prompt for PIN
             pin = keypad.getInput(); // input PIN
@@ -82,12 +82,12 @@ public class ATM {
                 currentAccountNumber = accountNumber; // save user's account #
                 return;
             } else {
-                screen.displayMessageLine(
-                        "Invalid account number or PIN or your account might be blocked. Please try again.");
+                screen.displayMessageLine("Invalid account number or PIN or your account might be blocked. Please try again.");
             }
         }
         // fail 3 times, block this account
-        screen.displayMessageLine("Fail to enter PIN after 3 times, your account will be blocked! >:(");
+        screen.displayMessageLine("Failed to enter PIN 3 times, your account has been blocked! >:(");
+        screen.displayMessageLine("Please contact admin to unblock your account.");
         bankDatabase.blockAccount(accountNumber);
     }
 
@@ -137,6 +137,7 @@ public class ATM {
             }
         }
     }
+
     // display the main menu and return an input selection
     private int displayMainMenu() {
         screen.displayMessageLine("\nMain menu:");

@@ -16,9 +16,7 @@ public class BankDatabase {
         accounts.add(new Account(8765, 5678, 200.0, 200.0, 1, 0));
         accounts.add(new Account(1357, 7531, 500, 500, 3, 0));
     }
-    
-    
-    
+
     public Account getAccount(int accountNumber) {
         for (int i = 0; i < (int) getAccounts().size(); i++) {
             if (accountNumber == getAccounts().get(i).getAccountNumber() && getAccounts().get(i).isBlocked() == false) {
@@ -27,7 +25,7 @@ public class BankDatabase {
         }
         return null; // if no matching account was found, return null
     }
-    
+
     public boolean authenticateUser(int userAccountNumber, int userPIN) {
         // attempt to retrieve the account with the account number
         Account userAccount = getAccount(userAccountNumber);
@@ -44,14 +42,18 @@ public class BankDatabase {
         return getAccount(userAccountNumber).getAvailableBalance();
     }
 
+    public double getMonthlyFee(int userAccountNumber) {
+        return getAccount(userAccountNumber).getMonthlyFeeStatus();
+    }
+
     public double getTotalBalance(int userAccountNumber) {
         return getAccount(userAccountNumber).getTotalBalance();
     }
 
     public void credit(int userAccountNumber, double amount) {
         getAccount(userAccountNumber).credit(amount);
-    }  
-    
+    }
+
     public void debit(int userAccountNumber, double amount) {
         getAccount(userAccountNumber).debit(amount);
     }
@@ -59,7 +61,7 @@ public class BankDatabase {
     public void changePIN(int userAccountNumber) {
         Screen screen = new Screen();
         Keypad keypad = new Keypad();
-        screen.displayMessage("Change PIN to: ");
+        screen.displayMessage("\nEnter new PIN: ");
         int pinAfter = keypad.getInput();
         for (int i = 0; i < (int) getAccounts().size(); i++) {
             if (getAccounts().get(i).getAccountNumber() == userAccountNumber) {

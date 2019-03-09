@@ -15,6 +15,7 @@ public class AdminMode {
     private static final int TAMBAH_UANG_DI_DISPENSER = 4;
     private static final int VALIDASI_DEPOSIT = 5;
     private static final int GANTI_TANGGAL = 6;
+    private static final int KELUAR = 7;
     private Calendar calendar = Calendar.getInstance();
     private BankDatabase bankDatabase;
     private CashDispenser cashDispenser;
@@ -29,52 +30,67 @@ public class AdminMode {
     }
 
     public void execute() {
-        screen.displayMessageLine("Admin Mode Menu");
-        screen.displayMessageLine("1. Tambah nasabah");
-        screen.displayMessageLine("2. Unblock nasabah");
-        screen.displayMessageLine("3. Lihat uang di dispenser");
-        screen.displayMessageLine("4. Tambah uang di dispenser");
-        screen.displayMessageLine("5. Validasi deposit");
-        screen.displayMessageLine("6. Ganti tanggal");
-        screen.displayMessage("Choose option: ");
-        int opt = keypad.getInput();
-        if (opt == TAMBAH_NASABAH) {
-            screen.displayMessageLine("Input (account number, pin, available balance, total balance) terpisah dengan spasi");
-            int addedAccountNumber = keypad.getInput();
-            int addedPIN = keypad.getInput();
-            double addedAvailableBalance = keypad.getInputDouble();
-            double addedTotalBalance = keypad.getInputDouble();
-            int tipe = keypad.getInput();
-            bankDatabase.tambahNasabah(new Account(addedAccountNumber, addedPIN, addedAvailableBalance, addedTotalBalance, tipe, 0));
-        } else if (opt == UNBLOCK_NASABAH) {
-            screen.displayMessage("Unblock nasabah dengan accountNumber: ");
-            int unblockedNasabahAccountNumber = keypad.getInput();
-            bankDatabase.unblockNasabah(unblockedNasabahAccountNumber);
-        } else if (opt == LIHAT_UANG_DI_DISPENSER) {
-            screen.displayMessageLine("There is " + cashDispenser.getCount() + " uang 20 perak available");
-        } else if (opt == TAMBAH_UANG_DI_DISPENSER) {
-            screen.displayMessage("Tentukan jumlah uang 20 perak untuk ditambahkan: ");
-            int added = keypad.getInput();
-            cashDispenser.setCount(cashDispenser.getCount() + added);
-        } else if (opt == GANTI_TANGGAL) {
-            int day, month, year;
-            screen.displayMessage("\nTentukan tanggal saat ini yyyy mm dd ");
-            screen.displayMessage("\nTahun : ");
-            year = keypad.getInput();
-            screen.displayMessage("Bulan : ");
-            month = keypad.getInput();
-            screen.displayMessage("Hari : ");
-            day = keypad.getInput();
+        int opt = 0;
+        while (opt != KELUAR) {
+            screen.displayMessageLine("Admin Mode Menu");
+            screen.displayMessageLine("1 - Tambah nasabah");
+            screen.displayMessageLine("2 - Unblock nasabah");
+            screen.displayMessageLine("3 - Lihat uang di dispenser");
+            screen.displayMessageLine("4 - Tambah uang di dispenser");
+            screen.displayMessageLine("5 - Validasi deposit");
+            screen.displayMessageLine("6 - Ganti tanggal");
+            screen.displayMessageLine("7 - Keluar");
+            screen.displayMessage("Choose option: ");
+            opt = keypad.getInput();
+            if (opt == TAMBAH_NASABAH) {
+                screen.displayMessage("\nEnter account number: ");
+                int addedAccountNumber = keypad.getInput();
+                screen.displayMessage("Enter PIN           : ");
+                int addedPIN = keypad.getInput();
+                screen.displayMessage("Enter balance       : ");
+                double addedTotalBalance = keypad.getInputDouble();
+                double addedAvailableBalance = addedTotalBalance + ((addedTotalBalance / 100) * 20);
+                screen.displayMessageLine("\nAccount type 1(Siswa), 2(Bisnis), 3(Masa Depan)");
+                screen.displayMessage("Enter account type  : ");
+                int tipe = keypad.getInput();
+                bankDatabase.tambahNasabah(new Account(addedAccountNumber, addedPIN, addedAvailableBalance, addedTotalBalance, tipe, 0));
+                screen.displayMessage("Berhasil menambah nasabah.");
+            } else if (opt == UNBLOCK_NASABAH) {
+                screen.displayMessage("\nEnter account number you want to unblock: ");
+                int unblockedNasabahAccountNumber = keypad.getInput();
+                bankDatabase.unblockNasabah(unblockedNasabahAccountNumber);
+                screen.displayMessageLine("\nAccount unblocked.");
+            } else if (opt == LIHAT_UANG_DI_DISPENSER) {
+                screen.displayMessageLine("\nThere are " + cashDispenser.getCount() + " cash of 20 cents available\n");
+            } else if (opt == TAMBAH_UANG_DI_DISPENSER) {
+                screen.displayMessage("\nTentukan jumlah uang 20 perak untuk ditambahkan: ");
+                int added = keypad.getInput();
+                cashDispenser.setCount(cashDispenser.getCount() + added);
+                screen.displayMessageLine("\nBerhasil menambahkan uang ke dispenser.\n");
+            } else if (opt == VALIDASI_DEPOSIT) {
+                screen.displayMessageLine("\nValidasi akan dilakukan pada saat deposit berlangsung.\n");
+            } else if (opt == GANTI_TANGGAL) {
+                int day, month, year;
+                screen.displayMessage("\nTentukan tanggal saat ini yyyy mm dd ");
+                screen.displayMessage("\nTahun : ");
+                year = keypad.getInput();
+                screen.displayMessage("Bulan : ");
+                month = keypad.getInput();
+                screen.displayMessage("Hari  : ");
+                day = keypad.getInput();
 
-            calendar.set(year, month, day);
-        } else {
-            // asumsiin aja si admin nginput valid lah, biar gampang...
+                calendar.set(year, month, day);
+
+                screen.displayMessageLine("\nTanggal telah berhasil diubah.");
+            } else {
+                screen.displayMessageLine("\nInvalid selection.\n");
+            }
         }
     }
 
     public boolean validate() {
         Keypad keypad = new Keypad();
-        screen.displayMessageLine("\nInput 1 jika surat valid, 0 sebaliknya: ");
+        screen.displayMessage("\nInput 1 jika surat valid, 0 jika tidak: ");
         int choice = keypad.getInput();
         return (choice == 1);
     }

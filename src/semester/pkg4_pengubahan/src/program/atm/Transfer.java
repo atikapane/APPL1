@@ -7,7 +7,7 @@ package semester.pkg4_pengubahan.src.program.atm;
 
 class Transfer {
 
-    private int numFrom;
+    private final int numFrom;
     private int numTo;
     private double value;
     private Keypad keypad;
@@ -20,42 +20,24 @@ class Transfer {
         this.keypad = keypad;
     }
 
-    public static void errorToSelf() {
-        System.out.println("Tidak dapat transfer ke diri sendiri...");
-    }
-
-    public static void errorAccToNotFound() {
-        System.out.println("Akun tujuan tidak ada");
-    }
-
     public void execute() {
         Screen screen = new Screen();
 
         //Get amount and account destination
         value = displayMenuTransfer();
-                if (value <= 0) {
-            System.out.println("Value tidak boleh 0 atau kurang");
-            return;
-        }
-        if (value > bankDatabase.getAccount(numFrom).getAvailableBalance()) {
-            System.out.println("Uang yang anda punya kurang untuk mentransfer sejumlah value");
-            return;
-        }
-        
+
         if (value != CANCELED) {
             screen.displayMessage("\nEnter account number destination: ");
             numTo = keypad.getInput();
 
-            if (numFrom == numTo) {
-            Transfer.errorToSelf();
-            return;
-        }
-
+            //check if account number exist
             Account accFrom = bankDatabase.getAccount(numFrom);
             Account accTo = bankDatabase.getAccount(numTo);
 
-            assert (accFrom != null);
-            assert (accTo != null);
+            while (accFrom == accTo || accTo == null) {
+                screen.displayMessageLine("\nInvalid account number.");
+                return;
+            }
 
             accFrom.setTransferLimit(value);
             //Check account transfer limit
@@ -65,6 +47,7 @@ class Transfer {
                     accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
                     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
                     accTo.setTotalBalance(accTo.getTotalBalance() + value);
+                    screen.displayMessageLine("\nTransfer successful.");
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
                     accFrom.setTransferLimit(-value);
@@ -76,6 +59,7 @@ class Transfer {
                     value += 5; //Biaya transfer masa depan;
                     accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
                     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
+                    screen.displayMessageLine("\nTransfer successful.");
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
                     accFrom.setTransferLimit(-value);
@@ -108,12 +92,20 @@ class Transfer {
             } else if (input == 6) {
                 screen.displayMessage("\nInsert amount: ");
                 userChoice = keypad.getInput();
+                if (userChoice <= 0) {
+                    screen.displayMessageLine("\nInvalid amount. Enter another amount.");
+                    userChoice = 0;
+                }
             } else if (input == CANCELED) {
                 screen.displayMessageLine("Cancelling transaction..");
                 return CANCELED;
             } else {
                 screen.displayMessageLine("\nInvalid selection. Try again.");
-                continue;
+            }
+
+            if (userChoice > bankDatabase.getAccount(numFrom).getAvailableBalance()) {
+                screen.displayMessageLine("You don't have enough balance. Please enter another amount.");
+                userChoice = 0;
             }
         }
         return userChoice;

@@ -56,6 +56,11 @@ public class Withdrawal extends Transaction {
                 screen.displayMessageLine("\nInvalid selection. Try again.");
                 continue;
             }
+
+            if (userChoice > super.getBankDatabase().getAvailableBalance(super.getAccountNumber())) {
+                screen.displayMessageLine("You don't have enough balance. Please enter another amount.");
+                userChoice = 0;
+            }
         }
         return userChoice; // return withdrawal amount or CANCELED
     }
@@ -74,11 +79,18 @@ public class Withdrawal extends Transaction {
         }
 
         if (amount != CANCELED && limitW == false) {
-            super.getBankDatabase().getAccount(super.getAccountNumber()).credit((double) amount);
-            cashDispenser.dispenseCash(amount);
+            if ((cashDispenser.isSufficientCashAvailable(amount))
+                    && (getBankDatabase().getAvailableBalance(getAccountNumber()) >= 0)) {
+                cashDispenser.dispenseCash(amount);
+                super.getBankDatabase().debit(super.getAccountNumber(), amount);
+            } else {
+                screen.displayMessageLine("\nThere is not enough cash in the machine. Please try again later.");
+            }
         }
     }
 
+    //check limit penarikan, jika true maka sudah mencapai limit
+    //jika false belum mencapai limit
     public boolean checkLimit(int amount) {
         Account account = super.getBankDatabase().getAccount(super.getAccountNumber());
 

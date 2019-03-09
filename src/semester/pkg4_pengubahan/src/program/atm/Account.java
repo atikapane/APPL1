@@ -15,7 +15,7 @@ public class Account {
     private double availableBalance; // funds available for withdrawal
     private double totalBalance; // funds available & pending deposits
     private boolean blocked;
-    private int monthlyFeeStatus; 
+    private int monthlyFeeStatus;
     private int jenis;
 
 //   private int SISWA = 1;
@@ -38,7 +38,7 @@ public class Account {
         //tipe == 2 then bisnis
         //tipe == 3 then masa_depan
         this.jenis = tipe;
-        
+
     }
 
     // determines whether a user-specified PIN matches PIN in Accountsss
@@ -80,14 +80,16 @@ public class Account {
         this.totalBalance = x;
     }
 
+    //credit saat deposit, bertambah hanya pada totalBalance
+    //available balance harus di validate terlebih dahulu
     public void credit(double amount) {
-        this.availableBalance -= amount;
-        this.totalBalance -= amount;
+        this.totalBalance += amount;
     }
 
+    //debit saat uang berkurang
     public void debit(double amount) {
-        this.availableBalance += amount;
-        this.totalBalance += amount;
+        this.availableBalance -= amount;
+        this.totalBalance -= amount;
     }
 
     public int getAccountNumber() {
@@ -105,12 +107,11 @@ public class Account {
     public void setBlocked(boolean value) {
         blocked = value;
     }
-    
+
     public int getMonthlyFeeStatus() {
         return monthlyFeeStatus;
     }
 
-    
     public void setMonthlyFeeStatus(int monthlyFeeStatus) {
         this.monthlyFeeStatus = monthlyFeeStatus;
     }
