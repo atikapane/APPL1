@@ -14,13 +14,34 @@ class Transfer {
     private BankDatabase bankDatabase;
     private final static int CANCELED = 7;
 
-    Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad) {
+    Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad, double value) {
         this.bankDatabase = bankDatabase;
         this.numFrom = numFrom;
         this.keypad = keypad;
+        this.value = value;
+    }
+
+    public static void errorToSelf() {
+        System.out.println("Tidak dapat transfer ke diri sendiri...");
+    }
+
+    public static void errorAccToNotFound() {
+        System.out.println("Akun tujuan tidak ada");
     }
 
     public void execute() {
+        if (value <= 0) {
+            System.out.println("Value tidak boleh 0 atau kurang");
+            return;
+        }
+        if (value > bankDatabase.getAccount(numFrom).getAvailableBalance()) {
+            System.out.println("Uang yang anda punya kurang untuk mentransfer sejumlah value");
+            return;
+        }
+        if (numFrom == numTo) {
+            Transfer.errorToSelf();
+            return;
+        }
         Screen screen = new Screen();
 
         //Get amount and account destination
