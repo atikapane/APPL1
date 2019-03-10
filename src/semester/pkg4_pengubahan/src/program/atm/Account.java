@@ -11,37 +11,35 @@ import java.util.Arrays;
 public class Account {
 
     /**
-     * @return the jenis
+     * @return the type
      */
     private int accountNumber; // account number
     private int pin; // PIN for authentication
     private double availableBalance; // funds available for withdrawal
     private double totalBalance; // funds available & pending deposits
-    private boolean blocked;
+    private boolean blocked; // account status blocked or not
     private int monthlyFeeStatus;
     private int jenis;
     private ArrayList<AccountHistory> transaction = new ArrayList<>();
+    private int type; // account type
 
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
 //   private int MASA_DEPAN = 3;
-    private double limitTarik = 0;
+    private double withdrawalLimit = 0;
     private double transferLimit = 0;
 
     // Account constructor initializes attributes
-    public Account(int theAccountNumber, int thePIN,
-            double theAvailableBalance, double theTotalBalance, int tipe, int atmMonthlyFeeStatus) {
+    public Account(int theAccountNumber, int thePIN, double theAvailableBalance,
+            double theTotalBalance, int type, int atmMonthlyFeeStatus) {
         this.accountNumber = theAccountNumber;
         this.availableBalance = theAvailableBalance;
         this.totalBalance = theTotalBalance;
-        this.monthlyFeeStatus = atmMonthlyFeeStatus;
+        this.monthlyFeeStatus = atmMonthlyFeeStatus; //account hasn't paid monthly fee
         this.pin = thePIN;
-        this.blocked = false;
+        this.blocked = false; //account state is not blocked
 
-        //tipe == 1 then siswa
-        //tipe == 2 then bisnis
-        //tipe == 3 then masa_depan
-        this.jenis = tipe;
+        this.type = type;
 
     }
 
@@ -80,7 +78,7 @@ public class Account {
     }
 
     public int getJenis() {
-        return this.jenis;
+        return this.type;
     }
 
     public double getTransferLimit() {
@@ -136,16 +134,16 @@ public class Account {
     }
 
     /**
-     * @return the limitTarik
+     * @return the withdrawalLimit
      */
-    public double getLimitTarik() {
-        return limitTarik;
+    public double getWithdrawalLimit() {
+        return withdrawalLimit;
     }
 
     /**
-     * @param limitTarik the limitTarik to set
+     * @param withdrawalLimit the withdrawalLimit to set
      */
-    public void setLimitTarik(double limitTarik) {
-        this.limitTarik = limitTarik;
+    public void setWithdrawalLimit(double withdrawalLimit) {
+        this.withdrawalLimit = withdrawalLimit;
     }
 }
