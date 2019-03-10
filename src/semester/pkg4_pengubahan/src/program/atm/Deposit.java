@@ -62,6 +62,7 @@ public class Deposit extends Transaction {
                     + "validate your envelope.");
             if (adminMode.validate()) {
                 super.getBankDatabase().credit(super.getAccountNumber(), amount);
+                super.getScreen().displayMessageLine("Deposit validated.");
                 super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Deposit", amount));
             } else {
                 super.getScreen().displayMessageLine("\nYour envelope is not "

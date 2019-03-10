@@ -20,9 +20,10 @@ public class ATM {
     private static final int BALANCE_INQUIRY = 1;
     private static final int WITHDRAWAL = 2;
     private static final int DEPOSIT = 3;
-    private static final int EXIT = 6;
+    private static final int EXIT = 7;
     private static final int CHANGE_PIN = 4;
     private static final int TRANSFER = 5;
+    private static final int TRANSACTION_HISTORY = 6;
 
     private int accountNumber;
     private int pin;
@@ -107,7 +108,7 @@ public class ATM {
             // show main menu and get user selection
             if (acc.getJenis() == 1) { //for user account type SISWA
                 mainMenuSelection = displayMainMenuSiswa();
-                if (mainMenuSelection == TRANSFER) {
+                if (mainMenuSelection == TRANSACTION_HISTORY) {
                     mainMenuSelection = EXIT;
                 }
             } else {
@@ -136,6 +137,8 @@ public class ATM {
                 Transfer transfer = new Transfer(
                         bankDatabase, currentAccountNumber, keypad);
                 transfer.execute();
+            } else if (mainMenuSelection == TRANSACTION_HISTORY) {
+                bankDatabase.getAccount(accountNumber).displayTransaction();
             } else {
                 screen.displayMessageLine("\nYou did not enter a valid "
                         + "selection. Try again.");
@@ -151,7 +154,8 @@ public class ATM {
         screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Change PIN");
         screen.displayMessageLine("5 - Transfer");
-        screen.displayMessageLine("6 - Exit");
+        screen.displayMessageLine("6 - Transaction History");
+        screen.displayMessageLine("7 - Exit");
         screen.displayMessage("Enter a choice: ");
         return keypad.getInput(); // return user's selection
     }
@@ -162,7 +166,8 @@ public class ATM {
         screen.displayMessageLine("2 - Withdraw cash");
         screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Change PIN");
-        screen.displayMessageLine("5 - Exit");
+        screen.displayMessageLine("5 - Transaction History");
+        screen.displayMessageLine("6 - Exit");
         screen.displayMessage("Enter a choice: ");
         return keypad.getInput(); // return user's selection
     }

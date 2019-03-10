@@ -60,11 +60,14 @@ public class Account {
         Screen screen = new Screen();
 
         screen.displayMessageLine("\nTransaction History");
-        screen.displayMessageLine("" + accountNumber);
+        screen.displayMessageLine("Account number: " + accountNumber);
 
         for (int i = 0; i < transaction.size(); i++) {
-            screen.displayMessageLine(transaction.get(i).toString());
+            screen.displayMessage("\n" + (i+1) + ". ");
+            screen.displayMessage(transaction.get(i).getType() + "  ");
+            screen.displayDollarAmount(transaction.get(i).getAmount());
         }
+        screen.displayMessageLine("");
     }
 
     // returns available balance
@@ -101,6 +104,7 @@ public class Account {
     //available balance harus di validate terlebih dahulu
     public void credit(double amount) {
         this.totalBalance += amount;
+        this.availableBalance += amount;
     }
 
     //debit saat uang berkurang

@@ -19,4 +19,12 @@ public class AccountHistory {
         this.transactionType = type;
         this.amount = amount;
     }
+    
+    public String getType(){
+        return transactionType;
+    }
+    
+    public double getAmount(){
+        return amount;
+    }
 }
