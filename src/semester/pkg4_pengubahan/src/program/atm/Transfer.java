@@ -5,7 +5,7 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
-class Transfer {
+class Transfer{
 
     private final int numFrom;
     private int numTo;
@@ -48,6 +48,7 @@ class Transfer {
                     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
                     accTo.setTotalBalance(accTo.getTotalBalance() + value);
                     screen.displayMessageLine("\nTransfer successful.");
+                    accFrom.addTransaction(new AccountHistory("Transfer", value));
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
                     accFrom.setTransferLimit(-value);
@@ -60,6 +61,7 @@ class Transfer {
                     accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
                     accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
                     screen.displayMessageLine("\nTransfer successful.");
+                    accFrom.addTransaction(new AccountHistory("Transfer", value));
                 } else {
                     screen.displayMessageLine("\nYou have exceed your transfer limit.");
                     accFrom.setTransferLimit(-value);

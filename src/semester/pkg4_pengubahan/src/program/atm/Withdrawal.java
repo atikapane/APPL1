@@ -72,17 +72,17 @@ public class Withdrawal extends Transaction {
         amount = displayMenuOfAmounts();
 
         limitW = checkLimit(amount);
-        if (limitW == false) {
-            screen.displayMessageLine("Your cash has been dispensed. Please take your cash now.");
-        } else {
+        if (limitW == true) {
             screen.displayMessageLine("Batas penarikan telah mencapai limit");
         }
 
         if (amount != CANCELED && limitW == false) {
             if ((cashDispenser.isSufficientCashAvailable(amount))
                     && (getBankDatabase().getAvailableBalance(getAccountNumber()) >= 0)) {
+                screen.displayMessageLine("Your cash has been dispensed. Please take your cash now.");
                 cashDispenser.dispenseCash(amount);
                 super.getBankDatabase().debit(super.getAccountNumber(), amount);
+                super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Withdrawal", amount));
             } else {
                 screen.displayMessageLine("\nThere is not enough cash in the machine. Please try again later.");
             }

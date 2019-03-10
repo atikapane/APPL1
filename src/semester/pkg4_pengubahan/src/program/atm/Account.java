@@ -5,6 +5,9 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Account {
 
     /**
@@ -17,6 +20,7 @@ public class Account {
     private boolean blocked;
     private int monthlyFeeStatus;
     private int jenis;
+    private ArrayList<AccountHistory> transaction = new ArrayList<>();
 
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
@@ -47,6 +51,21 @@ public class Account {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void addTransaction(AccountHistory added) {
+        transaction.add(added);
+    }
+
+    public void displayTransaction() {
+        Screen screen = new Screen();
+
+        screen.displayMessageLine("\nTransaction History");
+        screen.displayMessageLine("" + accountNumber);
+
+        for (int i = 0; i < transaction.size(); i++) {
+            screen.displayMessageLine(transaction.get(i).toString());
         }
     }
 
