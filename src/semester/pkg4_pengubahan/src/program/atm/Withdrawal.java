@@ -10,6 +10,12 @@ public class Withdrawal extends Transaction {
 
     // constant corresponding to menu option to cancel
     private final static int CANCELED = 6;
+    
+    //withdrawal limit for every account type
+    private final static int SISWA_LIMIT = 20;
+    private final static int BISNIS_LIMIT = 20;
+    private final static int MASA_DEPAN_LIMIT = 20;
+    
 
     Screen screen = getScreen(); // get screen reference
     private boolean limitW;
@@ -36,15 +42,7 @@ public class Withdrawal extends Transaction {
         // loop while no valid choice has been made
         while (userChoice == 0) {
             // display the withdrawal menu
-            screen.displayMessageLine("\nWithdrawal Menu:");
-            screen.displayMessageLine("1 - $20");
-            screen.displayMessageLine("2 - $40");
-            screen.displayMessageLine("3 - $60");
-            screen.displayMessageLine("4 - $100");
-            screen.displayMessageLine("5 - $200");
-            screen.displayMessageLine("6 - Cancel transaction");
-            screen.displayMessage("\nChoose a withdrawal amount: ");
-
+            withdrawalMenu();
             // determine how to proceed based on the input value
             int input = keypad.getInput(); // get user input through keypad
             if (input >= 1 && input <= 5) {
@@ -57,8 +55,10 @@ public class Withdrawal extends Transaction {
                 continue;
             }
 
-            if (userChoice > super.getBankDatabase().getAvailableBalance(super.getAccountNumber())) {
-                screen.displayMessageLine("You don't have enough balance. Please enter another amount.");
+            if (userChoice > super.getBankDatabase().getAvailableBalance(
+                    super.getAccountNumber())) {
+                screen.displayMessageLine("You don't have enough balance. "
+                        + "Please enter another amount.");
                 userChoice = 0;
             }
         }
@@ -73,45 +73,61 @@ public class Withdrawal extends Transaction {
 
         limitW = checkLimit(amount);
         if (limitW == false) {
-            screen.displayMessageLine("Your cash has been dispensed. Please take your cash now.");
+            screen.displayMessageLine("Your cash has been dispensed. Please "
+                    + "take your cash now.");
         } else {
             screen.displayMessageLine("Batas penarikan telah mencapai limit");
         }
 
         if (amount != CANCELED && limitW == false) {
             if ((cashDispenser.isSufficientCashAvailable(amount))
-                    && (getBankDatabase().getAvailableBalance(getAccountNumber()) >= 0)) {
+                    && (getBankDatabase().getAvailableBalance(
+                            getAccountNumber()) >= 0)) {
                 cashDispenser.dispenseCash(amount);
                 super.getBankDatabase().debit(super.getAccountNumber(), amount);
             } else {
-                screen.displayMessageLine("\nThere is not enough cash in the machine. Please try again later.");
+                screen.displayMessageLine("\nThere is not enough cash in the "
+                        + "machine. Please try again later.");
             }
         }
     }
 
-    //check limit penarikan, jika true maka sudah mencapai limit
-    //jika false belum mencapai limit
+    //check withdrawal limit
+    //return true if amount excedeed limit, else false
     public boolean checkLimit(int amount) {
-        Account account = super.getBankDatabase().getAccount(super.getAccountNumber());
+        Account account = super.getBankDatabase().getAccount(
+                super.getAccountNumber());
 
-        account.setLimitTarik(amount);
+        account.setWithdrawalLimit(amount);
 
         if (account.getJenis() == 1) {
-            if (account.getLimitTarik() > 20) {
-                account.setLimitTarik(-amount);
+            if (account.getWithdrawalLimit() > SISWA_LIMIT) {
+                account.setWithdrawalLimit(-amount);
                 return true;
             }
         } else if (account.getJenis() == 2) {
-            if (account.getLimitTarik() > 100) {
-                account.setLimitTarik(-amount);
+            if (account.getWithdrawalLimit() > BISNIS_LIMIT) {
+                account.setWithdrawalLimit(-amount);
                 return true;
             }
         } else if (account.getJenis() == 3) {
-            if (account.getLimitTarik() > 1000) {
-                account.setLimitTarik(-amount);
+            if (account.getWithdrawalLimit() > MASA_DEPAN_LIMIT) {
+                account.setWithdrawalLimit(-amount);
                 return true;
             }
         }
         return false;
+    }
+
+    // display the withdrawal menu
+    private void withdrawalMenu() {
+        screen.displayMessageLine("\nWithdrawal Menu:");
+        screen.displayMessageLine("1 - $20");
+        screen.displayMessageLine("2 - $40");
+        screen.displayMessageLine("3 - $60");
+        screen.displayMessageLine("4 - $100");
+        screen.displayMessageLine("5 - $200");
+        screen.displayMessageLine("6 - Cancel transaction");
+        screen.displayMessage("\nChoose a withdrawal amount: ");
     }
 }

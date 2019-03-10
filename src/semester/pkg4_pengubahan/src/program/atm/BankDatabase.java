@@ -8,18 +8,19 @@ package semester.pkg4_pengubahan.src.program.atm;
 import java.util.ArrayList;
 
 public class BankDatabase {
-
-    private ArrayList<Account> accounts = new ArrayList<Account>(); // array of Accounts
+    // array of Accounts
+    private ArrayList<Account> accounts = new ArrayList<Account>(); 
 
     public BankDatabase() {
-        accounts.add(new Account(12345, 54321, 1000.0, 1200.0, 2, 0)); // initial 2 account
+        accounts.add(new Account(12345, 54321, 1000.0, 1200.0, 2, 0));
         accounts.add(new Account(8765, 5678, 200.0, 200.0, 1, 0));
         accounts.add(new Account(1357, 7531, 500, 500, 3, 0));
     }
 
     public Account getAccount(int accountNumber) {
         for (int i = 0; i < (int) getAccounts().size(); i++) {
-            if (accountNumber == getAccounts().get(i).getAccountNumber() && getAccounts().get(i).isBlocked() == false) {
+            if (accountNumber == getAccounts().get(i).getAccountNumber() 
+                    && getAccounts().get(i).isBlocked() == false) {
                 return getAccounts().get(i);
             }
         }
@@ -80,13 +81,14 @@ public class BankDatabase {
         }
     }
 
-    public void tambahNasabah(Account addedNasabah) {
+    public void addAccount(Account addedNasabah) {
         getAccounts().add(addedNasabah);
     }
 
     public void unblockNasabah(int unblockedNasabahAccountNumber) {
         for (int i = 0; i < (int) getAccounts().size(); i++) {
-            if (unblockedNasabahAccountNumber == getAccounts().get(i).getAccountNumber()) {
+            if (unblockedNasabahAccountNumber == getAccounts().get(i).
+                    getAccountNumber()) {
                 getAccounts().get(i).setBlocked(false);
                 return;
             }

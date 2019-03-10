@@ -25,12 +25,14 @@ public class Deposit extends Transaction {
         Screen screen = getScreen(); // get reference to screen
 
         // display the prompt
-        screen.displayMessage("\nEnter a deposit amount in CENTS (or 0 to cancel): ");
+        screen.displayMessage("\nEnter a deposit amount in CENTS "
+                + "(or 0 to cancel): ");
         amount = keypad.getInput(); // receive input of deposit amount
 
         while (amount < 0) {
             screen.displayMessageLine("\nPlease enter a valid amount");
-            screen.displayMessage("Enter a deposit amount in CENTS (or 0 to cancel): ");
+            screen.displayMessage("Enter a deposit amount in CENTS "
+                    + "(or 0 to cancel): ");
             amount = keypad.getInput(); // receive input of deposit amount
         }
 
@@ -47,15 +49,22 @@ public class Deposit extends Transaction {
     public void execute() {
         amount = promptForDepositAmount();
         if (amount != CANCELED) {
-            super.getScreen().displayMessageLine("Please insert a deposit envelope containing $" + amount + "\n");
-            super.getScreen().displayMessageLine("Your envelope has been received.");
-            super.getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
-            AdminMode adminMode = new AdminMode(super.getBankDatabase(), cashDispenser);
-            super.getScreen().displayMessageLine("Please wait while admin validate your envelope.");
+            super.getScreen().displayMessageLine("Please insert a deposit "
+                    + "envelope containing $" + amount + "\n");
+            super.getScreen().displayMessageLine("Your envelope has been "
+                    + "received.");
+            super.getScreen().displayMessageLine("NOTE: The money just "
+                    + "deposited will not be available until we verify the "
+                    + "amount of any enclosed cash and your checks clear.");
+            AdminMode adminMode = new AdminMode(
+                    super.getBankDatabase(), cashDispenser);
+            super.getScreen().displayMessageLine("Please wait while admin "
+                    + "validate your envelope.");
             if (adminMode.validate()) {
                 super.getBankDatabase().credit(super.getAccountNumber(), amount);
             } else {
-                super.getScreen().displayMessageLine("\nYour envelope is not valid...\n");
+                super.getScreen().displayMessageLine("\nYour envelope is not "
+                        + "valid...\n");
             }
         } else {
             super.getScreen().displayMessageLine("\nCancelling transaction..");
