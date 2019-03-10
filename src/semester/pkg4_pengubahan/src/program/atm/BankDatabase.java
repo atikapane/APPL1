@@ -13,8 +13,8 @@ public class BankDatabase {
 
     public BankDatabase() {
         accounts.add(new Account(12345, 54321, 1000.0, 1200.0, 2, 0));
-        accounts.add(new Account(8765, 5678, 200.0, 200.0, 1, 0));
-        accounts.add(new Account(1357, 7531, 500, 500, 3, 0));
+        accounts.add(new Account(8765, 5678, 200.0, 240.0, 1, 0));
+        accounts.add(new Account(1357, 7531, 500, 600, 3, 0));
     }
 
     public Account getAccount(int accountNumber) {
