@@ -42,30 +42,6 @@ class Transfer{
             accFrom.setTransferLimit(value);
             //Check account transfer limit
             if (accFrom.getJenis() == 2) {
-                //Transfer limit for Bisnis account
-                if (accFrom.getTransferLimit() <= 10000) {
-                    accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
-                    accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
-                    accTo.setTotalBalance(accTo.getTotalBalance() + value);
-                    screen.displayMessageLine("\nTransfer successful.");
-                    accFrom.addTransaction(new AccountHistory("Transfer", value));
-                } else {
-                    screen.displayMessageLine("\nYou have exceed your transfer limit.");
-                    accFrom.setTransferLimit(-value);
-                }
-            } else if (accFrom.getJenis() == 3) {
-                //Transfer limit for Masa Depan account
-                if (accFrom.getTransferLimit() <= 500) {
-                    accTo.setTotalBalance(accTo.getTotalBalance() + value);
-                    value += 5; //Biaya transfer masa depan;
-                    accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
-                    accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
-                    screen.displayMessageLine("\nTransfer successful.");
-                    accFrom.addTransaction(new AccountHistory("Transfer", value));
-                } else {
-                    screen.displayMessageLine("\nYou have exceed your transfer limit.");
-                    accFrom.setTransferLimit(-value);
-                }
                 //Transfer limit for Bisnis account = $1000
                 //Transfer fee for Bisnis account = $0
                 doTransfer(accFrom, accTo, 1000, 0);
@@ -86,6 +62,7 @@ class Transfer{
             accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
             accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
             screen.displayMessageLine("\nTransfer successful.");
+            accFrom.addTransaction(new AccountHistory("Transfer", value));
         } else {
             screen.displayMessageLine("\nYou have exceed your transfer limit.");
             accFrom.setTransferLimit(-value);
