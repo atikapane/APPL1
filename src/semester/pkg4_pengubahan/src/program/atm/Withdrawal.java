@@ -74,7 +74,7 @@ public class Withdrawal extends Transaction {
         limitW = checkLimit(amount);
 
         if (limitW == true) {
-            screen.displayMessageLine("You have exceed your withdrawal limit");
+            screen.displayMessageLine("You have exceed your withdrawal limit.");
         }
 
         if (amount != CANCELED && limitW == false) {
