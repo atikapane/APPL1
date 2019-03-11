@@ -5,14 +5,20 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.util.Calendar;
+
 public class AdminMode {
 
-    private static final int TAMBAH_NASABAH = 1;
-    private static final int UNBLOCK_NASABAH = 2;
-    private static final int LIHAT_UANG_DI_DISPENSER = 3;
-    private static final int TAMBAH_UANG_DI_DISPENSER = 4;
-    private static final int VALIDASI_DEPOSIT = 5;
-    private static final int EXIT = 6;
+    private static final int ADD_ACCOUNT = 1;
+    private static final int UNBLOCK_ACCOUNT = 2;
+    private static final int VIEW_DISPENSER_BALANCE = 3;
+    private static final int ADD_DISPENSER_BALANCE = 4;
+    private static final int DEPOSIT_VALIDATION = 5;
+    private static final int CHANGE_DATE = 6;
+    private static final int EXIT = 7;
+
+    private Calendar calendar = Calendar.getInstance();
+
     private BankDatabase bankDatabase;
     private CashDispenser cashDispenser;
     private Screen screen;
@@ -26,51 +32,105 @@ public class AdminMode {
     }
 
     public void execute() {
-        boolean adminExited = false; // user has not chosen to exit
 
-        while (adminExited != true) {
-            screen.displayMessageLine("\nAdmin Mode Menu:");
-            screen.displayMessageLine("1 - Add new account");
-            screen.displayMessageLine("2 - Unblock account");
-            screen.displayMessageLine("3 - See money in dispenser");
-            screen.displayMessageLine("4 - Add money into dispenser");
-            screen.displayMessageLine("5 - Deposit validation");
-            screen.displayMessageLine("6 - Exit");
-            screen.displayMessage("Enter a choice: ");
-            int opt = keypad.getInput();
+        int opt = 0;
+        while (opt != EXIT) {
+            opt = displayAdminMenu();
 
-            if (opt == TAMBAH_NASABAH) {
-                screen.displayMessageLine("\nInput (account number, pin, available balance, total balance, account type) with a space in between every input.");
-                int addedAccountNumber = keypad.getInput();
-                int addedPIN = keypad.getInput();
-                double addedAvailableBalance = keypad.getInputDouble();
-                double addedTotalBalance = keypad.getInputDouble();
-                int tipe = keypad.getInput();
-                double limitT = 0.00;
-                bankDatabase.tambahNasabah(new Account(addedAccountNumber, addedPIN, addedAvailableBalance, addedTotalBalance, tipe));
-            } else if (opt == UNBLOCK_NASABAH) {
-                screen.displayMessage("\nUnblock account with account number: ");
+            if (opt == ADD_ACCOUNT) {
+                newAccountData();
+
+            } else if (opt == UNBLOCK_ACCOUNT) {
+                screen.displayMessage("\nEnter account number you want to "
+                        + "unblock: ");
                 int unblockedNasabahAccountNumber = keypad.getInput();
                 bankDatabase.unblockNasabah(unblockedNasabahAccountNumber);
-            } else if (opt == LIHAT_UANG_DI_DISPENSER) {
-                screen.displayMessageLine("\nThere is " + cashDispenser.getCount() + " $20 bills available.");
-            } else if (opt == TAMBAH_UANG_DI_DISPENSER) {
-                screen.displayMessage("\nDetermine the number of $20 bills to add: ");
+                screen.displayMessageLine("\nAccount unblocked.");
+
+            } else if (opt == VIEW_DISPENSER_BALANCE) {
+                screen.displayMessageLine("\nThere are "
+                        + cashDispenser.getCount() + " cash of $20 bills "
+                                + "available\n");
+
+            } else if (opt == ADD_DISPENSER_BALANCE) {
+                screen.displayMessage("\nSpecify the amount of $20 to be "
+                        + "added :");
                 int added = keypad.getInput();
                 cashDispenser.setCount(cashDispenser.getCount() + added);
-            } else if (opt == VALIDASI_DEPOSIT) {
-                screen.displayMessage("\nValidation is done when adding a deposit\n.");
-            } else if (opt == EXIT) {
-                screen.displayMessageLine("\nExiting the system...");
-                adminExited = true;
+                screen.displayMessageLine("\nSuccessfully added to dispenser."
+                        + "\n");
+
+            } else if (opt == DEPOSIT_VALIDATION) {
+                screen.displayMessageLine("\nValidation will be done when "
+                        + "deposit occure.\n");
+
+            } else if (opt == CHANGE_DATE) {
+                int day, month, year;
+                screen.displayMessage("\nSpecify the current date");
+                screen.displayMessage("\nYear (yyyy): ");
+                year = keypad.getInput();
+                screen.displayMessage("Month (mm): ");
+                month = keypad.getInput();
+                screen.displayMessage("Day (dd): ");
+                day = keypad.getInput();
+
+                calendar.set(year, month, day);
+
+                screen.displayMessageLine("\nDate has been changed.");
+
+            } else {
+                screen.displayMessageLine("\nInvalid selection.\n");
             }
         }
     }
 
+    //validating deposit envelope
     public boolean validate() {
         Keypad keypad = new Keypad();
-        screen.displayMessageLine("\nEnter 1 if the letter is valid, otherwise, enter 0: ");
+        screen.displayMessage("\nInput 1 if the envelope is valid, 0 if not: ");
         int choice = keypad.getInput();
         return (choice == 1);
+    }
+
+    /**
+     * @return the calendar
+     */
+    public Calendar getCallendar() {
+        return calendar;
+    }
+
+    private int displayAdminMenu() {
+        screen.displayMessageLine("Admin Mode Menu");
+        screen.displayMessageLine("1 - Add Account");
+        screen.displayMessageLine("2 - Unblock Account");
+        screen.displayMessageLine("3 - View Dispenser Balance");
+        screen.displayMessageLine("4 - Add Dispenser Balance");
+        screen.displayMessageLine("5 - Deposit Validation");
+        screen.displayMessageLine("6 - Change Date");
+        screen.displayMessageLine("7 - Exit");
+        screen.displayMessage("Choose option: ");
+        return keypad.getInput(); // return user's selection
+    }
+
+    private void newAccountData() {
+        screen.displayMessage("\nEnter account number: ");
+        int addedAccountNumber = keypad.getInput();
+
+        screen.displayMessage("Enter PIN           : ");
+        int addedPIN = keypad.getInput();
+
+        screen.displayMessage("Enter balance       : ");
+        double addedTotalBalance = keypad.getInputDouble();
+        double addedAvailableBalance = addedTotalBalance + 
+                ((addedTotalBalance / 100) * 20);
+
+        screen.displayMessageLine("\nAccount type 1(Siswa), "
+                + "2(Bisnis), 3(Masa Depan)");
+        screen.displayMessage("Enter account type  : ");
+        int type = keypad.getInput();
+
+        bankDatabase.addAccount(new Account(addedAccountNumber, addedPIN, 
+                addedAvailableBalance, addedTotalBalance, type, 0));
+        screen.displayMessage("Account has been successfully added.");
     }
 }
