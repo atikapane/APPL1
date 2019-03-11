@@ -70,7 +70,7 @@ public class Withdrawal extends Transaction {
         if (limitW == false) {
             screen.displayMessageLine("Your cash has been dispensed. Please take your cash now.");
         } else {
-            screen.displayMessageLine("You have reached your withdrawal limit.");
+            screen.displayMessageLine("Batas penarikan telah mencapai limit");
         }
 
         if (amount != CANCELED && limitW == false) {

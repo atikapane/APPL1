@@ -57,7 +57,7 @@ public class ATM {
         int accountNumber = keypad.getInput(); // input account number
         if (accountNumber == 0) {
             AdminMode adminMode = new AdminMode(bankDatabase, cashDispenser);
-            screen.displayMessageLine("\nEntering Admin Mode...");
+            screen.displayMessageLine("\nEntering Admin Mode..");
             adminMode.execute();
             return;
         }
@@ -76,7 +76,7 @@ public class ATM {
             }
         }
         // fail 3 times, block this account
-        screen.displayMessageLine("Your account have been blocked. Please contact our admin.");
+        screen.displayMessageLine("Fail to enter PIN after 3 times, your account will be blocked! >:(");
         bankDatabase.blockAccount(accountNumber);
     }
 
@@ -112,7 +112,7 @@ public class ATM {
             } else if (mainMenuSelection == TRANSFER) {
                 screen.displayMessage("\nTransfer To \nEnter Account Number: ");
                 int accTo = keypad.getInput();
-                screen.displayMessage("\nValue (in $): ");
+                screen.displayMessage("Value: ");
                 double value = keypad.getInputDouble();
                 Transfer transfer = new Transfer(bankDatabase, currentAccountNumber, accTo, value);
                 transfer.execute();
@@ -120,6 +120,7 @@ public class ATM {
                 screen.displayMessageLine("\nYou did not enter a valid selection. Try again.");
             }
         }
+        System.out.println("Ba!");
     }
 
     // display the main menu and return an input selection

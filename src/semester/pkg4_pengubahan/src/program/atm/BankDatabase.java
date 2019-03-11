@@ -58,7 +58,7 @@ public class BankDatabase {
   public void changePIN(int userAccountNumber) {
     Screen screen = new Screen();
     Keypad keypad = new Keypad();
-    screen.displayMessage("\nChange PIN to: ");
+    screen.displayMessage("Change PIN to: ");
     int pinAfter = keypad.getInput();
     for (int i = 0; i < (int) accounts.size(); i++) {
       if (accounts.get(i).getAccountNumber() == userAccountNumber) {
