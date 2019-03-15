@@ -70,6 +70,10 @@ public class Account {
      pin = pinToSet;
    }
    
+   public double getPIN() {
+      return pin;
+   }
+   
    public boolean isBlocked() {
      return blocked;
    }
