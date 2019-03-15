@@ -16,20 +16,19 @@ import java.util.Date;
 public class AccountHistory {
 
     private String transactionType = new String();
-    private Calendar calendar;    
+    private Date date;    
     private Screen screen;
     private double amount;
 
-    public AccountHistory(String type, double amount, Calendar calendar) {
+    public AccountHistory(String type, double amount, Date date) {
         this.transactionType = type;
         this.amount = amount;
-        this.calendar = calendar;
+//        this.date = date;
     }
     
     public AccountHistory(String type, double amount) {
         this.transactionType = type;
         this.amount = amount;
-        this.calendar = calendar;
     }
 
     public String getType() {
@@ -43,8 +42,8 @@ public class AccountHistory {
     /**
      * @return the calendar
      */
-    public Calendar getCalendar() {
-        return calendar;
+    public Date getDate() {
+        return date;
     }
     
     

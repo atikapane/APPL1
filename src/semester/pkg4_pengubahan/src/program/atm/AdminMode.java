@@ -5,7 +5,11 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AdminMode {
 
@@ -17,7 +21,9 @@ public class AdminMode {
     private static final int CHANGE_DATE = 6;
     private static final int EXIT = 7;
 
-    private Calendar calendar = Calendar.getInstance();
+    public Calendar calendar = Calendar.getInstance();
+    public Date date = new Date();
+    public final DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 
     private BankDatabase bankDatabase;
     private CashDispenser cashDispenser;
@@ -31,7 +37,7 @@ public class AdminMode {
         keypad = new Keypad();
     }
 
-    public void execute() {
+    public void execute() throws ParseException {
 
         int opt = 0;
         while (opt != EXIT) {
@@ -66,16 +72,21 @@ public class AdminMode {
 
             } else if (opt == CHANGE_DATE) {
                 int day, month, year;
+                String dateNow;
                 screen.displayMessage("\nSpecify the current date");
-                screen.displayMessage("\nYear (yyyy): ");
-                year = keypad.getInput();
-                screen.displayMessage("Month (mm): ");
-                month = keypad.getInput();
-                screen.displayMessage("Day (dd): ");
-                day = keypad.getInput();
+//                screen.displayMessage("\nYear (yyyy): ");
+//                year = keypad.getInput();
+//                screen.displayMessage("Month (mm): ");
+//                month = keypad.getInput();
+//                screen.displayMessage("Day (dd): ");
+//                day = keypad.getInput();
+                screen.displayMessage("input date in format (dd-mm-yyyy): ");
+                dateNow = keypad.getInputString();
 
-                calendar.set(year, month, day);
-
+//                calendar.set(year, month-1, day);   //karena bulan mulai dari 0
+//                String date = dateFormat.format(calendar.getTime());
+//                screen.displayMessageLine(dateFormat.format(calendar.getTime()));
+                date = dateFormat.parse(dateNow);
                 screen.displayMessageLine("\nDate has been changed.");
 
             } else {

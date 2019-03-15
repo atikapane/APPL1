@@ -6,6 +6,9 @@
 
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 class Transfer{
 
     private final int numFrom; //Account number transferor
@@ -16,6 +19,7 @@ class Transfer{
     private AdminMode adminMode;
     private final static int CANCELED = 7;
     private Screen screen = new Screen();
+    
 
     Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad) {
         this.bankDatabase = bankDatabase;
@@ -65,7 +69,7 @@ class Transfer{
             accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
             accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
             screen.displayMessageLine("\nTransfer successful.");
-            accFrom.addTransaction(new AccountHistory("Transfer", value, adminMode.getCallendar()));
+            accFrom.addTransaction(new AccountHistory("Transfer", value));
         } else {
             screen.displayMessageLine("\nYou have exceed your transfer limit.");
             accFrom.setTransferLimit(-value);

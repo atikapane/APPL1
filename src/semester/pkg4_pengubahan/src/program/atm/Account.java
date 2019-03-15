@@ -74,13 +74,13 @@ public class Account {
         for (int i = 0; i < transaction.size(); i++) {
             if (type1.equals("all")) {
 //                screen.displayMessage("\n" + (i + 1) + ". ");
-                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
+//                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
                 screen.displayMessage(transaction.get(i).getType() + "  ");
                 screen.displayDollarAmount(transaction.get(i).getAmount());
             } else if (transaction.get(i).getType().equals(type1)) {
 //                screen.displayMessage("\n" + j + ". ");
 //                j++;
-                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
+//                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
                 screen.displayMessage(transaction.get(i).getType() + "  ");
                 screen.displayDollarAmount(transaction.get(i).getAmount());
             }
