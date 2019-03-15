@@ -13,6 +13,7 @@ class Transfer{
     private double value; //Transfer amount
     private Keypad keypad;
     private BankDatabase bankDatabase;
+    private AdminMode adminMode;
     private final static int CANCELED = 7;
     private Screen screen = new Screen();
 
@@ -26,6 +27,7 @@ class Transfer{
 
         //Get amount and account destination
         value = displayMenuTransfer();
+
 
         if (value != CANCELED) {
             screen.displayMessage("\nEnter account number destination: ");
@@ -63,7 +65,7 @@ class Transfer{
             accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
             accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
             screen.displayMessageLine("\nTransfer successful.");
-            accFrom.addTransaction(new AccountHistory("Transfer", value));
+            accFrom.addTransaction(new AccountHistory("Transfer", value, adminMode.getCallendar()));
         } else {
             screen.displayMessageLine("\nYou have exceed your transfer limit.");
             accFrom.setTransferLimit(-value);
@@ -107,7 +109,7 @@ class Transfer{
                 userChoice = 0;
             }
         }
-        return 0;
+        return userChoice;
     }
 
     // display the transfer menu

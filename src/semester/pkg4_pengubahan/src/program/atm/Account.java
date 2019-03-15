@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package semester.pkg4_pengubahan.src.program.atm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Account {
+
     /**
      * @return the type
      */
@@ -22,6 +22,7 @@ public class Account {
     private int jenis;
     private ArrayList<AccountHistory> transaction = new ArrayList<>();
     private int type; // account type
+    private Screen screen;
 
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
@@ -56,16 +57,33 @@ public class Account {
         transaction.add(added);
     }
 
-    public void displayTransaction() {
+    public void displayTransaction(int type) {
         Screen screen = new Screen();
+        String type1 = "all";
 
         screen.displayMessageLine("\nTransaction History");
-        screen.displayMessageLine("Account number: " + accountNumber);
 
+        if (type == 1) {
+            type1 = "Transfer";
+        } else if (type == 2) {
+            type1 = "Withdrawal";
+        }
+
+        screen.displayMessageLine("Account number: " + accountNumber);
+        int j = 1;
         for (int i = 0; i < transaction.size(); i++) {
-            screen.displayMessage("\n" + (i+1) + ". ");
-            screen.displayMessage(transaction.get(i).getType() + "  ");
-            screen.displayDollarAmount(transaction.get(i).getAmount());
+            if (type1.equals("all")) {
+//                screen.displayMessage("\n" + (i + 1) + ". ");
+                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
+                screen.displayMessage(transaction.get(i).getType() + "  ");
+                screen.displayDollarAmount(transaction.get(i).getAmount());
+            } else if (transaction.get(i).getType().equals(type1)) {
+//                screen.displayMessage("\n" + j + ". ");
+//                j++;
+                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
+                screen.displayMessage(transaction.get(i).getType() + "  ");
+                screen.displayDollarAmount(transaction.get(i).getAmount());
+            }
         }
         screen.displayMessageLine("");
     }
@@ -150,4 +168,5 @@ public class Account {
     public void setWithdrawalLimit(double withdrawalLimit) {
         this.withdrawalLimit = withdrawalLimit;
     }
+
 }

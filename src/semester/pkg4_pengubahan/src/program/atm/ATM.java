@@ -130,7 +130,9 @@ public class ATM {
                         bankDatabase, currentAccountNumber, keypad);
                 transfer.execute();
             } else if (mainMenuSelection == TRANSACTION_HISTORY) {
-                bankDatabase.getAccount(currentAccountNumber).displayTransaction();
+                displayHistoryMenu();
+                int input = keypad.getInput();
+                bankDatabase.getAccount(currentAccountNumber).displayTransaction(input);
             } else {
                 screen.displayMessageLine("\nYou did not enter a valid "
                         + "selection. Try again.");
@@ -162,6 +164,13 @@ public class ATM {
         screen.displayMessageLine("6 - Exit");
         screen.displayMessage("Enter a choice: ");
         return keypad.getInput(); // return user's selection
+    }
+        
+    public void displayHistoryMenu() {
+        screen.displayMessageLine("1. See Transfer History;");
+        screen.displayMessageLine("2. See Withdraw History;");
+        screen.displayMessageLine("3. See All History;");
+        screen.displayMessageLine("Choose option : ");
     }
 
     private Transaction createTransaction(int type) {

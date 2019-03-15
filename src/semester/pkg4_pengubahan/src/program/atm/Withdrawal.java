@@ -7,7 +7,8 @@ public class Withdrawal extends Transaction {
     private int amount; // amount to withdraw
     private Keypad keypad; // reference to keypad
     private CashDispenser cashDispenser; // reference to cash dispenser
-
+    private AdminMode adminMode;
+    
     // constant corresponding to menu option to cancel
     private final static int CANCELED = 6;
 
@@ -83,7 +84,7 @@ public class Withdrawal extends Transaction {
                 screen.displayMessageLine("Your cash has been dispensed. Please take your cash now.");
                 cashDispenser.dispenseCash(amount);
                 super.getBankDatabase().debit(super.getAccountNumber(), amount);
-                super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Withdrawal", amount));
+                super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Withdrawal", amount, adminMode.getCallendar()));
             } else {
                 screen.displayMessageLine("\nThere is not enough cash in the "
                         + "machine. Please try again later.");
