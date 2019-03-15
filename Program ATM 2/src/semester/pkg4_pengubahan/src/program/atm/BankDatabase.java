@@ -63,7 +63,12 @@ public class BankDatabase {
     int pinAfter = keypad.getInput();
     for (int i = 0; i < (int) accounts.size(); i++) {
       if (accounts.get(i).getAccountNumber() == userAccountNumber) {
-        accounts.get(i).setPIN(pinAfter);
+          if (accounts.get(i).getPIN() == pinAfter) {
+             screen.displayMessageLine("New PIN must be different from current PIN."); 
+          } else {
+             accounts.get(i).setPIN(pinAfter); 
+             screen.displayMessageLine("Your PIN has been changed.");
+          }
       }
     }
   }
