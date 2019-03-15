@@ -34,7 +34,7 @@ public class AdminMode {
     screen.displayMessage("Choose option: ");
     int opt = keypad.getInput();
     if (opt == TAMBAH_NASABAH) {
-      screen.displayMessageLine("Input (account number, pin, available balance, total balance) terpisah dengan spasi");
+      screen.displayMessageLine("Input (account number, pin, available balance, total balance, tipe) terpisah dengan spasi");
       int addedAccountNumber = keypad.getInput();
       int addedPIN = keypad.getInput();
       double addedAvailableBalance = keypad.getInputDouble();
