@@ -23,18 +23,18 @@ public class Administration {
     }
 
     public void AdministrationFee() {
-        Calendar cal = adminMode.getCallendar();
+        Calendar cal = adminMode.getCallendar().getInstance();
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        if(dayOfMonth == 1){
+        if (dayOfMonth == 1) {
             for (Account account : bankDatabase.getAccounts()) {
                 account.setMonthlyFeeStatus(0);
             }
         }
-        
+
         if (dayOfMonth == 3) {
             for (Account account : bankDatabase.getAccounts()) {
                 if (account.getMonthlyFeeStatus() == 0) {
-                    switch (account.jenis) {
+                    switch (account.getJenis()) {
                         case 1: 
                         
                     ;
@@ -50,9 +50,7 @@ public class Administration {
                     }
                     account.setMonthlyFeeStatus(1);
                 }
-
             }
         }
-
     }
 }
