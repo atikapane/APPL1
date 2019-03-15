@@ -14,6 +14,7 @@ public class ATM {
     private CashDispenser cashDispenser; // ATM's cash dispenser
 
     private BankDatabase bankDatabase; // account information database
+<<<<<<< HEAD
     private Administration administration;
     private AdminMode adminMode;
     // constants corresponding to main menu options
