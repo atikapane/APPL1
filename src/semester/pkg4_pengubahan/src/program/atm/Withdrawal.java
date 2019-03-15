@@ -9,13 +9,13 @@ public class Withdrawal extends Transaction {
     private CashDispenser cashDispenser; // reference to cash dispenser
 
     // constant corresponding to menu option to cancel
-    private final static int CANCELED = 6;
+    private final static int CANCELED = 7;
 
     //withdrawal limit for every account type
     private final static int SISWA_LIMIT = 20;
     private final static int BISNIS_LIMIT = 100;
     private final static int MASA_DEPAN_LIMIT = 1000;
-    
+
     Screen screen = getScreen(); // get screen reference
     private boolean limitW;
 
@@ -47,6 +47,13 @@ public class Withdrawal extends Transaction {
             int input = keypad.getInput(); // get user input through keypad
             if (input >= 1 && input <= 5) {
                 userChoice = amounts[input];
+            } else if (input == 6) {
+                screen.displayMessage("\nInput Ammount: ");
+                userChoice = keypad.getInput();
+                if (userChoice <= 0) {
+                    screen.displayMessageLine("\nInvalid amount. Enter another amount.");
+                    userChoice = 0;
+                }
             } else if (input == CANCELED) {
                 screen.displayMessageLine("Cancelling transaction..");
                 return CANCELED;
@@ -126,7 +133,8 @@ public class Withdrawal extends Transaction {
         screen.displayMessageLine("3 - $60");
         screen.displayMessageLine("4 - $100");
         screen.displayMessageLine("5 - $200");
-        screen.displayMessageLine("6 - Cancel transaction");
+        screen.displayMessageLine("6 - Another amount");
+        screen.displayMessageLine("7 - Cancel transaction");
         screen.displayMessage("\nChoose a withdrawal amount: ");
     }
 }
