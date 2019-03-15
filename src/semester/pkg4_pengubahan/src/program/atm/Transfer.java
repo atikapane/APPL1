@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package semester.pkg4_pengubahan.src.program.atm;
 
-class Transfer{
+class Transfer {
 
     private final int numFrom; //Account number transferor
     private int numTo; //Account number transferee
@@ -98,7 +97,7 @@ class Transfer{
             } else {
                 screen.displayMessageLine("\nInvalid selection. Try again.");
             }
-            
+
             //check whether transferor has enough available balance
             if (userChoice > bankDatabase.getAccount(numFrom).
                     getAvailableBalance()) {
@@ -107,7 +106,7 @@ class Transfer{
                 userChoice = 0;
             }
         }
-        return 0;
+        return userChoice;
     }
 
     // display the transfer menu
