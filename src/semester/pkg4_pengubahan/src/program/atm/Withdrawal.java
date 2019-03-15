@@ -13,8 +13,8 @@ public class Withdrawal extends Transaction {
     
     //withdrawal limit for every account type
     private final static int SISWA_LIMIT = 20;
-    private final static int BISNIS_LIMIT = 20;
-    private final static int MASA_DEPAN_LIMIT = 20;
+    private final static int BISNIS_LIMIT = 100;
+    private final static int MASA_DEPAN_LIMIT = 1000;
     
 
     Screen screen = getScreen(); // get screen reference
@@ -47,7 +47,8 @@ public class Withdrawal extends Transaction {
             int input = keypad.getInput(); // get user input through keypad
             if (input >= 1 && input <= 5) {
                 userChoice = amounts[input];
-            } else if (input == CANCELED) {
+            } 
+            else if (input == CANCELED) {
                 screen.displayMessageLine("Cancelling transaction..");
                 return CANCELED;
             } else {

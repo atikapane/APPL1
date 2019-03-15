@@ -30,6 +30,7 @@ public class AdminMode {
         keypad = new Keypad();
     }
 
+    
     public void execute() {
         int opt = 0;
         while (opt != EXIT) {
@@ -43,7 +44,7 @@ public class AdminMode {
                         + "unblock: ");
                 int unblockedNasabahAccountNumber = keypad.getInput();
                 bankDatabase.unblockNasabah(unblockedNasabahAccountNumber);
-                screen.displayMessageLine("\nAccount unblocked.");
+                screen.displayMessageLine("Account unblocked.\n");
 
             } else if (opt == VIEW_DISPENSER_BALANCE) {
                 screen.displayMessageLine("\nThere are "

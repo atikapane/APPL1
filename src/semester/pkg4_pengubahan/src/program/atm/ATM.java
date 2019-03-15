@@ -62,6 +62,7 @@ public class ATM {
         }
     }
 
+    
     // attempts to authenticate user against database
     private void authenticateUser() {
         screen.displayMessage("\nPlease enter your account number: ");
