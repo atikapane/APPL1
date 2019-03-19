@@ -7,6 +7,8 @@ package semester.pkg4_pengubahan.src.program.atm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Account {
 
@@ -23,6 +25,7 @@ public class Account {
     private ArrayList<AccountHistory> transaction = new ArrayList<>();
     private int type; // account type
     private Screen screen;
+    private Keypad keypad;
 
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
@@ -39,7 +42,7 @@ public class Account {
         this.monthlyFeeStatus = atmMonthlyFeeStatus; //account hasn't paid monthly fee
         this.pin = thePIN;
         this.blocked = false; //account state is not blocked
-
+        this.keypad = new Keypad();
         this.type = type;
 
     }
@@ -60,13 +63,21 @@ public class Account {
     public void displayTransaction(int type) {
         Screen screen = new Screen();
         String type1 = "all";
-
+        int month = 0;
+        
         screen.displayMessageLine("\nTransaction History");
 
         if (type == 1) {
             type1 = "Transfer";
         } else if (type == 2) {
             type1 = "Withdrawal";
+            screen.displayMessageLine("Which month do you want to see (mm): ");
+            month = keypad.getInput();
+            Collections.sort(transaction, new Comparator<AccountHistory>(){
+             public int compare(AccountHistory a1, AccountHistory a2) {
+               return Double.compare(a1.getAmount(), a2.getAmount());
+            }
+        });
         }
 
         screen.displayMessageLine("Account number: " + accountNumber);
@@ -82,7 +93,12 @@ public class Account {
 //                screen.displayMessage("\n" + j + ". ");
 //                j++;
 //                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
-//                screen.displayMessage(transaction.get(i).getDate().toString() + " ");
+                if(type1.equals("Withdrawal"))
+                    screen.displayMessage(transaction.get(i).getDate().toString() + " ");
+                else
+                    if(month == transaction.get(i).getDate().getMonth())
+                        screen.displayMessage(transaction.get(i).getDate().toString() + " ");
+                
                 screen.displayMessage(transaction.get(i).getType() + "  ");
                 screen.displayDollarAmount(transaction.get(i).getAmount());
             }
