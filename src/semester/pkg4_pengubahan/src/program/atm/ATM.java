@@ -5,6 +5,8 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.ParseException;
+
 public class ATM {
 
     private boolean userAuthenticated; // whether user is authenticated
@@ -37,7 +39,7 @@ public class ATM {
     }
 
     // start ATM 
-    public void run() {
+    public void run() throws ParseException {
         // welcome and authenticate user; perform transactions
         while (true) {
             // loop while user is not yet authenticated
@@ -55,7 +57,7 @@ public class ATM {
     }
 
     // attempts to authenticate user against database
-    private void authenticateUser() {
+    private void authenticateUser() throws ParseException {
         screen.displayMessage("\nPlease enter your account number: ");
         int accountNumber = keypad.getInput(); // input account number
         if (accountNumber == 0) {
@@ -126,11 +128,12 @@ public class ATM {
             } else if (mainMenuSelection == CHANGE_PIN) {
                 bankDatabase.changePIN(currentAccountNumber);
             } else if (mainMenuSelection == TRANSFER) {
-                Transfer transfer = new Transfer(
-                        bankDatabase, currentAccountNumber, keypad);
+                Transfer transfer = new Transfer(currentAccountNumber,
+                        screen, bankDatabase, keypad, cashDispenser);
                 transfer.execute();
             } else if (mainMenuSelection == TRANSACTION_HISTORY) {
-                bankDatabase.getAccount(currentAccountNumber).displayTransaction();
+                int input = displayHistoryMenu();
+                bankDatabase.getAccount(currentAccountNumber).displayTransaction(input);
             } else {
                 screen.displayMessageLine("\nYou did not enter a valid "
                         + "selection. Try again.");
@@ -161,6 +164,14 @@ public class ATM {
         screen.displayMessageLine("5 - Transaction History");
         screen.displayMessageLine("6 - Exit");
         screen.displayMessage("Enter a choice: ");
+        return keypad.getInput(); // return user's selection
+    }
+        
+    public int displayHistoryMenu() {
+        screen.displayMessageLine("\n1. See Transfer History;");
+        screen.displayMessageLine("2. See Withdraw History;");
+        screen.displayMessageLine("3. See All History;");
+        screen.displayMessageLine("Choose option : ");
         return keypad.getInput(); // return user's selection
     }
 

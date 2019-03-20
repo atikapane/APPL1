@@ -5,20 +5,36 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
-class Transfer {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+class Transfer extends Transaction {
 
     private final int numFrom; //Account number transferor
     private int numTo; //Account number transferee
     private double value; //Transfer amount
-    private Keypad keypad;
     private BankDatabase bankDatabase;
-    private final static int CANCELED = 7;
-    private Screen screen = new Screen();
+    private Keypad keypad; // reference to keypad
+    private Screen screen = getScreen();
+    private CashDispenser cashDispenser; // reference to cash dispenser
 
-    Transfer(BankDatabase bankDatabase, int numFrom, Keypad keypad) {
-        this.bankDatabase = bankDatabase;
-        this.numFrom = numFrom;
-        this.keypad = keypad;
+    private AdminMode adminMode;
+    public final DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+    private final static int CANCELED = 7;
+
+    public Transfer(int userAccountNumber, Screen atmScreen,
+            BankDatabase atmBankDatabase, Keypad atmKeypad,
+            CashDispenser atmCashDispenser) {
+
+        super(userAccountNumber, atmScreen, atmBankDatabase);
+        
+        keypad = atmKeypad;
+        cashDispenser = atmCashDispenser;
+        adminMode = new AdminMode(getBankDatabase(), cashDispenser);
+        this.numFrom = userAccountNumber;
+        this.bankDatabase = atmBankDatabase;
     }
 
     public void execute() {
@@ -55,6 +71,7 @@ class Transfer {
 
     private void doTransfer(Account accFrom, Account accTo, int limit,
             int transferFee) {
+
         if (accFrom.getTransferLimit() <= limit) {
             accTo.setTotalBalance(accTo.getTotalBalance() + value);
             accTo.setAvailableBalance(accTo.getAvailableBalance() + value);
@@ -62,7 +79,7 @@ class Transfer {
             accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
             accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
             screen.displayMessageLine("\nTransfer successful.");
-            accFrom.addTransaction(new AccountHistory("Transfer", value));
+            accFrom.addTransaction(new AccountHistory("Transfer", value, adminMode.getDate()));
         } else {
             screen.displayMessageLine("\nYou have exceed your transfer limit.");
             accFrom.setTransferLimit(-value);
@@ -119,6 +136,7 @@ class Transfer {
         screen.displayMessageLine("5 - $200");
         screen.displayMessageLine("6 - Another amount");
         screen.displayMessageLine("7 - Cancel transaction");
+
         screen.displayMessage("\nChoose amount: ");
     }
 }

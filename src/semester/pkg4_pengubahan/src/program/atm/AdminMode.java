@@ -5,7 +5,11 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AdminMode {
 
@@ -17,7 +21,9 @@ public class AdminMode {
     private static final int CHANGE_DATE = 6;
     private static final int EXIT = 7;
 
-    private Calendar calendar = Calendar.getInstance();
+    public Calendar calendar = Calendar.getInstance();
+    public Date date = new Date();
+    public final DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 
     private BankDatabase bankDatabase;
     private CashDispenser cashDispenser;
@@ -31,7 +37,7 @@ public class AdminMode {
         keypad = new Keypad();
     }
 
-    public void execute() {
+    public void execute() throws ParseException {
 
         int opt = 0;
         while (opt != EXIT) {
@@ -65,17 +71,12 @@ public class AdminMode {
                         + "deposit occure.\n");
 
             } else if (opt == CHANGE_DATE) {
-                int day, month, year;
-                screen.displayMessage("\nSpecify the current date");
-                screen.displayMessage("\nYear (yyyy): ");
-                year = keypad.getInput();
-                screen.displayMessage("Month (mm): ");
-                month = keypad.getInput();
-                screen.displayMessage("Day (dd): ");
-                day = keypad.getInput();
-
-                calendar.set(year, month, day);
-
+                String dateNow;
+                
+                screen.displayMessage("\nSpecify the current date.");
+                screen.displayMessage("\nInput date in format (dd-mm-yyyy): ");
+                dateNow = keypad.getInputStrings();
+                date = dateFormat.parse(dateNow);
                 screen.displayMessageLine("\nDate has been changed.");
 
             } else {
@@ -132,5 +133,9 @@ public class AdminMode {
         bankDatabase.addAccount(new Account(addedAccountNumber, addedPIN, 
                 addedAvailableBalance, addedTotalBalance, type, 0));
         screen.displayMessage("Account has been successfully added.");
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

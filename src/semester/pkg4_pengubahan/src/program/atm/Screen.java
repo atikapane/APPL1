@@ -16,4 +16,8 @@ public class Screen {
     public void displayDollarAmount(double amount) {
         System.out.printf("$%,.2f", amount);
     }
+
+    void displayMessageLine(Account accFrom) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

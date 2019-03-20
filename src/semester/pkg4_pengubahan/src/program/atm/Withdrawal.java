@@ -2,6 +2,9 @@
 // Represents a withdrawal ATM transaction
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class Withdrawal extends Transaction {
 
     private int amount; // amount to withdraw
@@ -16,6 +19,9 @@ public class Withdrawal extends Transaction {
     private final static int BISNIS_LIMIT = 100;
     private final static int MASA_DEPAN_LIMIT = 1000;
 
+    private AdminMode adminMode;
+    public final DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
     Screen screen = getScreen(); // get screen reference
     private boolean limitW;
 
@@ -28,6 +34,7 @@ public class Withdrawal extends Transaction {
         super(userAccountNumber, atmScreen, atmBankDatabase);
         keypad = atmKeypad;
         cashDispenser = atmCashDispenser;
+        adminMode = new AdminMode(getBankDatabase(), cashDispenser);
     }
 
     // display a menu of withdrawal amounts and the option to cancel;
@@ -88,9 +95,10 @@ public class Withdrawal extends Transaction {
             if ((cashDispenser.isSufficientCashAvailable(amount))
                     && (getBankDatabase().getAvailableBalance(getAccountNumber()) >= 0)) {
                 screen.displayMessageLine("Your cash has been dispensed. Please take your cash now.");
+
                 cashDispenser.dispenseCash(amount);
                 super.getBankDatabase().debit(super.getAccountNumber(), amount);
-                super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Withdrawal", amount));
+                super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Withdrawal", amount, adminMode.date));
             } else {
                 screen.displayMessageLine("\nThere is not enough cash in the "
                         + "machine. Please try again later.");

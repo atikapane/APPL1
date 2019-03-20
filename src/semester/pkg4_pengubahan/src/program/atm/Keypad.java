@@ -17,4 +17,8 @@ public class Keypad {
     public double getInputDouble() {
         return input.nextDouble();
     }
+
+    public String getInputStrings() {
+        return input.next();
+    }
 }

@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package semester.pkg4_pengubahan.src.program.atm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Account {
+
     /**
      * @return the type
      */
@@ -22,6 +24,8 @@ public class Account {
     private int jenis;
     private ArrayList<AccountHistory> transaction = new ArrayList<>();
     private int type; // account type
+    private Screen screen;
+    private Keypad keypad;
 
 //   private int SISWA = 1;
 //   private int BISNIS = 2;
@@ -38,7 +42,7 @@ public class Account {
         this.monthlyFeeStatus = atmMonthlyFeeStatus; //account hasn't paid monthly fee
         this.pin = thePIN;
         this.blocked = false; //account state is not blocked
-
+        this.keypad = new Keypad();
         this.type = type;
 
     }
@@ -56,21 +60,49 @@ public class Account {
         transaction.add(added);
     }
 
-    public void displayTransaction() {
+    public void displayTransaction(int type) {
         Screen screen = new Screen();
+        String type1;
+        int month = 0;
 
         screen.displayMessageLine("\nTransaction History");
-        screen.displayMessageLine("Account number: " + accountNumber);
 
+        if (type == 1) {
+            type1 = "Transfer";
+        } else if (type == 2) {
+            type1 = "Withdrawal";
+            screen.displayMessageLine("Which month do you want to see (mm): ");
+            month = (keypad.getInput()) - 1;
+            Collections.sort(transaction, new Comparator<AccountHistory>() {
+                public int compare(AccountHistory a1, AccountHistory a2) {
+                    return Double.compare(a1.getAmount(), a2.getAmount());
+                }
+            });
+        } else {
+            type1 = "all";
+        }
+
+        screen.displayMessageLine("Account number: " + accountNumber);
         for (int i = 0; i < transaction.size(); i++) {
-            screen.displayMessage("\n" + (i+1) + ". ");
-            screen.displayMessage(transaction.get(i).getType() + "  ");
-            screen.displayDollarAmount(transaction.get(i).getAmount());
+            if (type1.equals("all")) {
+                screen.displayMessage("\n" + transaction.get(i).getDate() + " ");
+                screen.displayMessage(transaction.get(i).getType() + "  ");
+                screen.displayDollarAmount(transaction.get(i).getAmount());
+            } else if (transaction.get(i).getType().equals(type1)) {
+                if (type1.equals("Withdrawal")) {
+                    screen.displayMessage("\n" + transaction.get(i).getDate() + " ");
+                } else if (month == transaction.get(i).getDate().getMonth()) {
+                    screen.displayMessage("\n" + transaction.get(i).getDate() + " ");
+                }
+
+                screen.displayMessage(transaction.get(i).getType() + " ");
+                screen.displayDollarAmount(transaction.get(i).getAmount());
+            }
         }
         screen.displayMessageLine("");
     }
 
-    // returns available balance
+// returns available balance
     public double getAvailableBalance() {
         return availableBalance;
     }

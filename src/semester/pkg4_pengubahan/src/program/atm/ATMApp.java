@@ -6,9 +6,11 @@
 
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.ParseException;
+
 public class ATMApp {
    // main method creates and runs the ATM
-   public static void main(String[] args) {
+   public static void main(String[] args) throws ParseException {
       ATM theATM = new ATM();    
       theATM.run();      
    }
