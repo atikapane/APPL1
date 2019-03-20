@@ -168,9 +168,9 @@ public class ATM {
     }
         
     public int displayHistoryMenu() {
-        screen.displayMessageLine("\n1. See Transfer History;");
-        screen.displayMessageLine("2. See Withdraw History;");
-        screen.displayMessageLine("3. See All History;");
+        screen.displayMessageLine("\n1. See Transfer History");
+        screen.displayMessageLine("2. See Withdraw History");
+        screen.displayMessageLine("3. See All History");
         screen.displayMessageLine("Choose option : ");
         return keypad.getInput(); // return user's selection
     }

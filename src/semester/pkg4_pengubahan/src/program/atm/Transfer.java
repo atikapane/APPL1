@@ -79,7 +79,7 @@ class Transfer extends Transaction {
             accFrom.setAvailableBalance(accFrom.getAvailableBalance() - value);
             accFrom.setTotalBalance(accFrom.getTotalBalance() - value);
             screen.displayMessageLine("\nTransfer successful.");
-            accFrom.addTransaction(new AccountHistory("Transfer", value, adminMode.getDate()));
+            accFrom.addTransaction(new AccountHistory("Transfer", value, adminMode.date));
         } else {
             screen.displayMessageLine("\nYou have exceed your transfer limit.");
             accFrom.setTransferLimit(-value);

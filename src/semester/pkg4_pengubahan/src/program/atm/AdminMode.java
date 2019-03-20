@@ -134,8 +134,4 @@ public class AdminMode {
                 addedAvailableBalance, addedTotalBalance, type, 0));
         screen.displayMessage("Account has been successfully added.");
     }
-
-    public Date getDate() {
-        return date;
-    }
 }

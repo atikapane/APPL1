@@ -98,6 +98,7 @@ public class Withdrawal extends Transaction {
 
                 cashDispenser.dispenseCash(amount);
                 super.getBankDatabase().debit(super.getAccountNumber(), amount);
+                System.out.println("!!" + adminMode.date);
                 super.getBankDatabase().getAccount(getAccountNumber()).addTransaction(new AccountHistory("Withdrawal", amount, adminMode.date));
             } else {
                 screen.displayMessageLine("\nThere is not enough cash in the "

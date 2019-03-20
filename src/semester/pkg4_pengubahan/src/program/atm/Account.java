@@ -90,19 +90,16 @@ public class Account {
                 screen.displayDollarAmount(transaction.get(i).getAmount());
             } else if (transaction.get(i).getType().equals(type1)) {
                 if (type1.equals("Withdrawal")) {
-                    screen.displayMessage("\n" + transaction.get(i).getDate() + " ");
-                } else if (month == transaction.get(i).getDate().getMonth()) {
-                    screen.displayMessage("\n" + transaction.get(i).getDate() + " ");
+                    if (month == transaction.get(i).getDate().getMonth()) {
+                        screen.displayMessage("\n" + transaction.get(i).getDate() + " ");
+                        screen.displayMessage(transaction.get(i).getType() + " ");
+                        screen.displayDollarAmount(transaction.get(i).getAmount());
+                    }
                 }
-
-                screen.displayMessage(transaction.get(i).getType() + " ");
-                screen.displayDollarAmount(transaction.get(i).getAmount());
             }
         }
-        screen.displayMessageLine("");
     }
-
-// returns available balance
+        // returns available balance
     public double getAvailableBalance() {
         return availableBalance;
     }
