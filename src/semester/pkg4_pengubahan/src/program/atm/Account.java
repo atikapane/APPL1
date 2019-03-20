@@ -5,6 +5,8 @@
  */
 package semester.pkg4_pengubahan.src.program.atm;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,7 +46,6 @@ public class Account {
         this.blocked = false; //account state is not blocked
         this.keypad = new Keypad();
         this.type = type;
-
     }
 
     // determines whether a user-specified PIN matches PIN in Accountsss
@@ -99,7 +100,8 @@ public class Account {
             }
         }
     }
-        // returns available balance
+    // returns available balance
+
     public double getAvailableBalance() {
         return availableBalance;
     }
@@ -148,6 +150,10 @@ public class Account {
 
     public void setPIN(int pinToSet) {
         this.pin = pinToSet;
+    }
+
+    public int getPin() {
+        return pin;
     }
 
     public boolean isBlocked() {
