@@ -72,12 +72,12 @@ public class Account {
         } else if (type == 2) {
             type1 = "Withdrawal";
             screen.displayMessageLine("Which month do you want to see (mm): ");
-            month = keypad.getInput();
-            Collections.sort(transaction, new Comparator<AccountHistory>(){
-             public int compare(AccountHistory a1, AccountHistory a2) {
-               return Double.compare(a1.getAmount(), a2.getAmount());
-            }
-        });
+            month = keypad.getInput() + 1;
+//            Collections.sort(transaction, new Comparator<AccountHistory>(){
+//             public int compare(AccountHistory a1, AccountHistory a2) {
+//               return Double.compare(a1.getAmount(), a2.getAmount());
+//            }
+//        });
         }
 
         screen.displayMessageLine("Account number: " + accountNumber);
@@ -86,18 +86,17 @@ public class Account {
             if (type1.equals("all")) {
 //                screen.displayMessage("\n" + (i + 1) + ". ");
 //                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
-                screen.displayMessage(transaction.get(i).getDate().toString() + " ");
+//                screen.displayMessage(transaction.get(i).getDate().toString() + " ");
                 screen.displayMessage(transaction.get(i).getType() + "  ");
                 screen.displayDollarAmount(transaction.get(i).getAmount());
             } else if (transaction.get(i).getType().equals(type1)) {
 //                screen.displayMessage("\n" + j + ". ");
 //                j++;
 //                screen.displayMessage(transaction.get(i).getCalendar().toString() + "  ");
-                if(type1.equals("Withdrawal"))
+                if(type1.equals("Transfer")){
+//                    screen.displayMessage(transaction.get(i).getDate().toString() + " ");
+                }else if(month == transaction.get(i).getDate().getMonth()+1)
                     screen.displayMessage(transaction.get(i).getDate().toString() + " ");
-                else
-                    if(month == transaction.get(i).getDate().getMonth())
-                        screen.displayMessage(transaction.get(i).getDate().toString() + " ");
                 
                 screen.displayMessage(transaction.get(i).getType() + "  ");
                 screen.displayDollarAmount(transaction.get(i).getAmount());
