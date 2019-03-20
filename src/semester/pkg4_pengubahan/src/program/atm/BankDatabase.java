@@ -72,6 +72,7 @@ public class BankDatabase {
         }
     }
 
+    
     public void blockAccount(int currentAccountNumber) {
         for (int i = 0; i < (int) accounts.size(); i++) {
             if (accounts.get(i).getAccountNumber() == currentAccountNumber) {
@@ -85,11 +86,18 @@ public class BankDatabase {
         getAccounts().add(addedNasabah);
     }
 
+    
     public void unblockNasabah(int unblockedNasabahAccountNumber) {
         for (int i = 0; i < (int) getAccounts().size(); i++) {
             if (unblockedNasabahAccountNumber == getAccounts().get(i).
                     getAccountNumber()) {
                 getAccounts().get(i).setBlocked(false);
+                
+                //biaya unblock
+                if(getAccounts().get(i).getJenis() == 2)    // bisnis
+                    getAccounts().get(i).setTotalBalance(getAccounts().get(i).getTotalBalance() - 3);   // kurangin $2 
+                else if(getAccounts().get(i).getJenis() == 3)    // masa depan
+                    getAccounts().get(i).setTotalBalance(getAccounts().get(i).getTotalBalance() - 2);   // kurangin $3
                 return;
             }
         }
